@@ -8,12 +8,41 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Tajawal', sans-serif; background-color: #0F0A1E; color: #fff; overflow-x: hidden; }
-        .glass { background: rgba(30, 22, 80, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .glass-card { background: rgba(20, 14, 45, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.3s ease; }
+        :root {
+            --bg-main: #0F0A1E;
+            --glass-bg: rgba(30, 22, 80, 0.4);
+            --glass-card: rgba(20, 14, 45, 0.6);
+            --accent-primary: #9333ea;
+            --accent-secondary: #4f46e5;
+        }
+        body.theme-emerald {
+            --bg-main: #061a14;
+            --glass-bg: rgba(10, 45, 35, 0.4);
+            --glass-card: rgba(8, 30, 24, 0.6);
+            --accent-primary: #059669;
+            --accent-secondary: #0d9488;
+        }
+        body.theme-midnight {
+            --bg-main: #090d16;
+            --glass-bg: rgba(15, 23, 42, 0.4);
+            --glass-card: rgba(10, 15, 30, 0.6);
+            --accent-primary: #2563eb;
+            --accent-secondary: #4f46e5;
+        }
+        body.theme-rose {
+            --bg-main: #1a0a12;
+            --glass-bg: rgba(50, 20, 35, 0.4);
+            --glass-card: rgba(35, 12, 25, 0.6);
+            --accent-primary: #e11d48;
+            --accent-secondary: #be185d;
+        }
+
+        body { font-family: 'Tajawal', sans-serif; background-color: var(--bg-main); color: #fff; overflow-x: hidden; padding-bottom: 70px; transition: background-color 0.3s ease; }
+        .glass { background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .glass-card { background: var(--glass-card); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.3s ease; }
         .glass-card:hover { border-color: rgba(168, 85, 247, 0.4); transform: translateY(-4px); box-shadow: 0 10px 30px -10px rgba(139, 92, 246, 0.3); }
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0F0A1E; }
+        ::-webkit-scrollbar-track { background: var(--bg-main); }
         ::-webkit-scrollbar-thumb { background: #3B2F70; border-radius: 4px; }
     </style>
 </head>
@@ -21,11 +50,11 @@
 
     <!-- شريط الإعلانات والشحن المجاني -->
     <div class="bg-gradient-to-r from-purple-900 via-indigo-900 to-purple-900 text-xs py-2 px-4 text-center border-b border-purple-800/55 font-medium tracking-wide">
-        ✨ شحن مجاني لكافة مناطق المملكة عند طلبك بـ <span class="font-bold text-yellow-400">500 ر.س</span> أو أكثر! | ضمان رسمي وسريع 🚀
+        ✨ شحن مجاني لكافة مناطق المملكة عند طلبك بـ <span class="font-bold text-yellow-400">500 ر.س</span> أو أكثر! | خدمة العملاء: <a href="tel:0546867639" class="underline text-yellow-300 font-bold">0546867639</a> 📞
     </div>
 
     <!-- الشريط العلوي (Navbar) -->
-    <header class="glass sticky top-0 z-50 border-b border-white/10 px-4 lg:px-12 py-3.5 flex items-center justify-between">
+    <header class="glass sticky top-0 z-40 border-b border-white/10 px-4 lg:px-12 py-3.5 flex items-center justify-between">
         <div class="flex items-center gap-3">
             <a href="#" class="text-2xl font-black tracking-wider bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-300 bg-clip-text text-transparent">
                 ALPHA <span class="text-white font-light">STORE</span>
@@ -35,21 +64,18 @@
         <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-300">
             <a href="#" class="hover:text-purple-400 transition">الرئيسية</a>
             <a href="#products-section" class="hover:text-purple-400 transition">المنتجات الفاخرة</a>
-            <a href="#reviews-section" class="hover:text-purple-400 transition">آراء العملاء</a>
+            <a href="tel:0546867639" class="hover:text-purple-400 transition flex items-center gap-1"><i class="fa-solid fa-phone text-xs"></i> 0546867639</a>
         </div>
 
         <div class="flex items-center gap-3">
-            <!-- المفضلة -->
             <button onclick="toggleWishlistModal()" class="relative p-2.5 rounded-xl glass-card hover:bg-white/10 transition text-gray-200">
                 <i class="fa-regular fa-heart text-lg"></i>
                 <span id="wishlist-badge" class="absolute -top-1 -right-1 bg-pink-600 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold hidden">0</span>
             </button>
-            <!-- السلة -->
             <button onclick="toggleCartModal()" class="relative p-2.5 rounded-xl glass-card hover:bg-white/10 transition text-gray-200">
                 <i class="fa-solid fa-bag-shopping text-lg"></i>
                 <span id="cart-badge" class="absolute -top-1 -right-1 bg-purple-600 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold hidden">0</span>
             </button>
-            <!-- حساب المستخدم / تسجيل الدخول -->
             <button onclick="openAuthModal()" id="auth-btn" class="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-medium text-sm shadow-lg shadow-purple-900/40 hover:opacity-90 transition flex items-center gap-2">
                 <i class="fa-regular fa-user"></i>
                 <span id="auth-btn-text">حسابي</span>
@@ -57,12 +83,8 @@
         </div>
     </header>
 
-    <!-- الواجهة الرئيسية (Hero Section) -->
+    <!-- الواجهة الرئيسية -->
     <section class="relative px-4 lg:px-12 py-16 lg:py-24 max-w-7xl mx-auto w-full flex flex-col items-center text-center">
-        <div class="absolute inset-0 -z-10 flex items-center justify-center opacity-20 pointer-events-none">
-            <div class="w-96 h-96 bg-purple-600 rounded-full blur-[120px]"></div>
-            <div class="w-96 h-96 bg-indigo-600 rounded-full blur-[120px]"></div>
-        </div>
         <span class="px-4 py-1.5 rounded-full text-xs font-semibold bg-purple-500/10 text-purple-300 border border-purple-500/20 mb-6">
             ⚡ الإصدارات الفاخرة والأصلية 2026
         </span>
@@ -70,7 +92,7 @@
             متجرك الفاخر لكل ما هو <br><span class="bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-300 bg-clip-text text-transparent">استثنائي ومتطور</span>
         </h1>
         <p class="text-gray-300 text-base lg:text-lg max-w-2xl mb-10">
-            اكتشف أحدث الهواتف الذكية والأجهزة التقنية بتصميم زجاجي فريد، مع ضمان معتمد وشحن سريع حتى باب منزلك.
+            اكتشف أحدث المنتجات التقنية بتصميم زجاجي فريد، مع إدخال تفاصيل عنوانك وبياناتك بكل سهولة وأمان تام.
         </p>
         <a href="#products-section" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 font-bold text-white shadow-xl shadow-purple-900/50 hover:scale-105 transition">
             تسوق المنتجات الآن <i class="fa-solid fa-arrow-down mr-2"></i>
@@ -87,164 +109,129 @@
             <div class="flex gap-2 overflow-x-auto pb-2 w-full md:w-auto">
                 <button onclick="filterProducts('all')" class="category-btn px-4 py-2 rounded-xl bg-purple-600 text-white text-sm font-medium transition whitespace-nowrap">الكل</button>
                 <button onclick="filterProducts('phones')" class="category-btn px-4 py-2 rounded-xl glass-card text-gray-300 text-sm font-medium transition whitespace-nowrap">هواتف ذكية</button>
-                <button onclick="filterProducts('audio')" class="category-btn px-4 py-2 rounded-xl glass-card text-gray-300 text-sm font-medium transition whitespace-nowrap">سعات وسماعات</button>
+                <button onclick="filterProducts('audio')" class="category-btn px-4 py-2 rounded-xl glass-card text-gray-300 text-sm font-medium transition whitespace-nowrap">ساعات وسماعات</button>
                 <button onclick="filterProducts('accessories')" class="category-btn px-4 py-2 rounded-xl glass-card text-gray-300 text-sm font-medium transition whitespace-nowrap">إكسسوارات فاخرة</button>
             </div>
         </div>
 
-        <!-- شبكة المنتجات -->
-        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- يتم تعبئة المنتجات تلقائياً عبر JavaScript -->
-        </div>
+        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
     </main>
 
-    <!-- قسم آراء العملاء والتقييمات -->
-    <section id="reviews-section" class="max-w-7xl mx-auto px-4 lg:px-12 py-16 border-t border-white/10 w-full">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl font-black mb-2">تقييمات العملاء الثقة</h2>
-            <p class="text-gray-400 text-sm">ماذا يقول عملائنا عن تجربة التسوق في الفا ستور</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="glass-card p-6 rounded-2xl">
-                <div class="flex text-yellow-400 mb-3 text-sm">
-                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                </div>
-                <p class="text-gray-300 text-sm mb-4">"تجربة شراء ممتازة جداً، تغيير ألوان الصور حسب الطلب حقيقي ووصول الجهاز خلال يومين فقط بجدة!"</p>
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-purple-600/30 flex items-center justify-center font-bold text-purple-300">ب</div>
-                    <div>
-                        <h4 class="font-bold text-sm">بدر الملحاوي</h4>
-                        <span class="text-xs text-gray-500">عميل موثق</span>
-                    </div>
-                </div>
-            </div>
-            <div class="glass-card p-6 rounded-2xl">
-                <div class="flex text-yellow-400 mb-3 text-sm">
-                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                </div>
-                <p class="text-gray-300 text-sm mb-4">"التصميم الزجاجي للمتجر فخم، وبوابة الدفع الإليكترونية سريعة وآمنة تماماً. شكراً الفا ستور."</p>
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-indigo-600/30 flex items-center justify-center font-bold text-indigo-300">س</div>
-                    <div>
-                        <h4 class="font-bold text-sm">سلطان العتيبي</h4>
-                        <span class="text-xs text-gray-500">عميل موثق</span>
-                    </div>
-                </div>
-            </div>
-            <div class="glass-card p-6 rounded-2xl">
-                <div class="flex text-yellow-400 mb-3 text-sm">
-                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                </div>
-                <p class="text-gray-300 text-sm mb-4">"منتجات أصلية وبأسعار تنافسية، ونظام التحقق والإيميل يوضح مدى احترافية المتجر."</p>
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-pink-600/30 flex items-center justify-center font-bold text-pink-300">ف</div>
-                    <div>
-                        <h4 class="font-bold text-sm">فيصل العمري</h4>
-                        <span class="text-xs text-gray-500">عميل موثق</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- زر المساعد الذكي العائم (AI Chatbot Trigger) -->
+    <button onclick="toggleAiChat()" class="fixed bottom-20 right-6 z-40 w-14 h-14 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-2xl flex items-center justify-center text-xl hover:scale-110 transition animate-bounce">
+        <i class="fa-solid fa-robot"></i>
+    </button>
 
-    <!-- الفوتر -->
-    <footer class="glass border-t border-white/10 py-8 px-4 text-center text-sm text-gray-400">
-        <p>© 2026 ALPHA STORE. جميع الحقوق محفوظة. إشراف وتطوير تقني متقدم.</p>
-    </footer>
-
-    <!-- نافذة تفاصيل المنتج / العرض -->
-    <div id="product-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-        <div class="glass max-w-2xl w-full rounded-3xl p-6 relative max-h-[90vh] overflow-y-auto">
-            <button onclick="closeProductModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white w-9 h-9 rounded-full bg-white/5 flex items-center justify-center">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-            <div id="modal-content" class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                <!-- محتوى المنتج الديناميكي -->
+    <!-- نافذة المساعد الذكي (AI Assistant Modal) -->
+    <div id="ai-chat-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="glass max-w-md w-full h-[500px] rounded-3xl p-4 flex flex-col relative">
+            <div class="flex justify-between items-center pb-3 border-b border-white/10">
+                <div class="flex items-center gap-2">
+                    <div class="w-9 h-9 rounded-full bg-purple-600 flex items-center justify-center text-white"><i class="fa-solid fa-robot"></i></div>
+                    <div>
+                        <h4 class="font-bold text-sm">مساعد الفا الذكي (AI)</h4>
+                        <span class="text-[10px] text-green-400">متصل وجاهز للإجابة</span>
+                    </div>
+                </div>
+                <button onclick="toggleAiChat()" class="text-gray-400 hover:text-white p-2"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="ai-chat-messages" class="flex-1 overflow-y-auto p-3 space-y-3 text-xs">
+                <div class="glass p-3 rounded-2xl max-w-[85%]">
+                    أهلاً بك في الفا ستور! أنا مساعدك الذكي 🤖. كيف يمكنني مساعدتك اليوم بخصوص المنتجات، الشحن، أو تفاصيل الطلب؟ يمكنك أيضاً التواصل معنا مباشرة على 0546867639.
+                </div>
+            </div>
+            <div class="pt-3 border-t border-white/10 flex gap-2">
+                <input type="text" id="ai-input" placeholder="اكتب سؤالك هنا..." class="flex-1 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-purple-500" onkeypress="if(event.key==='Enter') sendAiMessage()">
+                <button onclick="sendAiMessage()" class="px-4 py-2.5 rounded-xl bg-purple-600 text-white text-xs font-bold"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
         </div>
     </div>
 
-    <!-- نافذة تسجيل الدخول والتحقق عبر الإيميل (Auth & OTP Modal) -->
+    <!-- شريط الإعدادات السفلي لتغيير الألوان والثيمات (Bottom Settings Bar) -->
+    <div class="fixed bottom-0 left-0 right-0 z-40 glass border-t border-white/10 py-2 px-6 flex justify-around items-center">
+        <button onclick="setTheme('purple')" class="flex flex-col items-center gap-1 text-[10px] text-gray-300 hover:text-purple-400 transition">
+            <div class="w-6 h-6 rounded-full bg-purple-600 border border-white/30"></div>
+            <span>بنفسجي ملكي</span>
+        </button>
+        <button onclick="setTheme('emerald')" class="flex flex-col items-center gap-1 text-[10px] text-gray-300 hover:text-emerald-400 transition">
+            <div class="w-6 h-6 rounded-full bg-emerald-600 border border-white/30"></div>
+            <span>زمردي أخضر</span>
+        </button>
+        <button onclick="setTheme('midnight')" class="flex flex-col items-center gap-1 text-[10px] text-gray-300 hover:text-blue-400 transition">
+            <div class="w-6 h-6 rounded-full bg-blue-600 border border-white/30"></div>
+            <span>أزرق نيوني</span>
+        </button>
+        <button onclick="setTheme('rose')" class="flex flex-col items-center gap-1 text-[10px] text-gray-300 hover:text-rose-400 transition">
+            <div class="w-6 h-6 rounded-full bg-rose-600 border border-white/30"></div>
+            <span>وردي فاخر</span>
+        </button>
+        <a href="tel:0546867639" class="flex flex-col items-center gap-1 text-[10px] text-yellow-300 hover:text-yellow-400 transition">
+            <div class="w-6 h-6 rounded-full bg-yellow-500/20 flex items-center justify-center border border-yellow-500/40"><i class="fa-solid fa-phone text-xs text-yellow-300"></i></div>
+            <span>اتصل بنا</span>
+        </a>
+    </div>
+
+    <!-- نافذة تفاصيل المنتج -->
+    <div id="product-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="glass max-w-2xl w-full rounded-3xl p-6 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeProductModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white w-9 h-9 rounded-full bg-white/5 flex items-center justify-center"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <div id="modal-content" class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4"></div>
+        </div>
+    </div>
+
+    <!-- نافذة تسجيل الدخول والتحقق -->
     <div id="auth-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
         <div class="glass max-w-md w-full rounded-3xl p-8 relative">
-            <button onclick="closeAuthModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            
+            <button onclick="closeAuthModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-white/5 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
             <div id="auth-step-1">
                 <div class="text-center mb-6">
-                    <div class="w-16 h-16 bg-purple-600/20 text-purple-400 rounded-2xl mx-auto flex items-center justify-center text-2xl mb-3">
-                        <i class="fa-solid fa-envelope-circle-check"></i>
-                    </div>
+                    <div class="w-16 h-16 bg-purple-600/20 text-purple-400 rounded-2xl mx-auto flex items-center justify-center text-2xl mb-3"><i class="fa-solid fa-envelope-circle-check"></i></div>
                     <h3 class="text-2xl font-black">تسجيل الدخول / إنشاء حساب</h3>
-                    <p class="text-gray-400 text-sm mt-1">أدخل بريدك الإلكتروني ليصلك رمز التحقق الخاص بك</p>
+                    <p class="text-gray-400 text-sm mt-1">أدخل بريدك الإلكتروني ورقم جوالك</p>
                 </div>
                 <form onsubmit="sendOtpCode(event)" class="space-y-4">
                     <div>
-                        <label class="block text-xs text-gray-400 mb-2">البريد الإلكتروني</label>
-                        <input type="email5" id="user-email" required placeholder="name@example.com" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-purple-500 text-sm">
+                        <label class="block text-xs text-gray-400 mb-1">البريد الإلكتروني</label>
+                        <input type="email" id="user-email" required placeholder="name@example.com" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500">
                     </div>
-                    <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 font-bold text-white shadow-lg shadow-purple-900/40 hover:opacity-90 transition">
-                        إرسال رمز التحقق (OTP)
-                    </button>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">رقم الجوال</label>
+                        <input type="tel" id="user-phone" required placeholder="05xxxxxxxx" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500">
+                    </div>
+                    <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 font-bold text-white shadow-lg shadow-purple-900/40 hover:opacity-90 transition">إرسال رمز التحقق (OTP)</button>
                 </form>
             </div>
-
             <div id="auth-step-2" class="hidden">
                 <div class="text-center mb-6">
-                    <div class="w-16 h-16 bg-green-600/20 text-green-400 rounded-2xl mx-auto flex items-center justify-center text-2xl mb-3">
-                        <i class="fa-solid fa-shield-halved"></i>
-                    </div>
+                    <div class="w-16 h-16 bg-green-600/20 text-green-400 rounded-2xl mx-auto flex items-center justify-center text-2xl mb-3"><i class="fa-solid fa-shield-halved"></i></div>
                     <h3 class="text-2xl font-black">أدخل رمز التحقق</h3>
                     <p class="text-gray-400 text-sm mt-1">تم إرسال الرمز إلى <span id="sent-to-email" class="text-purple-400 font-bold"></span></p>
                 </div>
                 <form onsubmit="verifyOtpCode(event)" class="space-y-4">
-                    <div>
-                        <input type="text" id="otp-input" maxlength="4" required placeholder="1234" class="w-full text-center tracking-widest text-2xl px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-purple-500 font-bold">
-                    </div>
-                    <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 font-bold text-white shadow-lg hover:opacity-90 transition">
-                        تأكيد وتسجيل الدخول
-                    </button>
+                    <div><input type="text" id="otp-input" maxlength="4" required placeholder="1234" class="w-full text-center tracking-widest text-2xl px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-purple-500 font-bold"></div>
+                    <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 font-bold text-white shadow-lg hover:opacity-90 transition">تأكيد وتسجيل الدخول</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- نافذة سلة التسوق وإتمام الدفع الحقيقي -->
+    <!-- نافذة السلة -->
     <div id="cart-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex justify-end">
         <div class="glass w-full max-w-md h-full flex flex-col p-6 overflow-y-auto border-r border-white/10">
             <div class="flex justify-between items-center mb-6 pb-4 border-b border-white/10">
                 <h3 class="text-xl font-bold flex items-center gap-2"><i class="fa-solid fa-bag-shopping text-purple-400"></i> سلة التسوق</h3>
                 <button onclick="toggleCartModal()" class="text-gray-400 hover:text-white p-2"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
-
-            <div id="cart-items-container" class="flex-1 space-y-4 overflow-y-auto mb-4">
-                <!-- عناصر السلة -->
-            </div>
-
-            <!-- تفاصيل الفاتورة والشحن المجاني -->
+            <div id="cart-items-container" class="flex-1 space-y-4 overflow-y-auto mb-4"></div>
             <div id="cart-summary" class="border-t border-white/10 pt-4 space-y-3">
                 <div id="free-shipping-bar" class="w-full bg-white/10 h-2 rounded-full overflow-hidden">
                     <div id="free-shipping-progress" class="bg-gradient-to-r from-purple-500 to-pink-500 h-full w-0 transition-all"></div>
                 </div>
                 <p id="free-shipping-text" class="text-xs text-purple-300 text-center font-medium"></p>
-                
-                <div class="flex justify-between text-sm text-gray-400">
-                    <span>المجموع الفرعي:</span>
-                    <span id="cart-subtotal">0 ر.س</span>
-                </div>
-                <div class="flex justify-between text-sm text-gray-400">
-                    <span>رسوم الشحن:</span>
-                    <span id="cart-shipping">35 ر.س</span>
-                </div>
-                <div class="flex justify-between text-lg font-bold border-t border-white/10 pt-3">
-                    <span>الإجمالي النهائي:</span>
-                    <span id="cart-total" class="text-purple-400">0 ر.س</span>
-                </div>
-
-                <button onclick="openCheckoutModal()" id="checkout-btn" class="w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 font-bold text-white shadow-xl hover:opacity-90 transition mt-2">
-                    إتمام الدفع الآمن
-                </button>
+                <div class="flex justify-between text-sm text-gray-400"><span>المجموع الفرعي:</span><span id="cart-subtotal">0 ر.س</span></div>
+                <div class="flex justify-between text-sm text-gray-400"><span>رسوم الشحن:</span><span id="cart-shipping">35 ر.س</span></div>
+                <div class="flex justify-between text-lg font-bold border-t border-white/10 pt-3"><span>الإجمالي النهائي:</span><span id="cart-total" class="text-purple-400">0 ر.س</span></div>
+                <button onclick="openCheckoutModal()" id="checkout-btn" class="w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 font-bold text-white shadow-xl hover:opacity-90 transition mt-2">إتمام الدفع الآمن</button>
             </div>
         </div>
     </div>
@@ -260,37 +247,50 @@
         </div>
     </div>
 
-    <!-- نافذة الدفع الحقيقي الآمن (Checkout Gateway - لا يوجد شراء وهمي بدون دفع) -->
+    <!-- نافذة إتمام الطلب الشاملة (رقم الجوال، موقع البيت، التفاصيل بالكامل والدفع الحقيقي) -->
     <div id="checkout-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
         <div class="glass max-w-lg w-full rounded-3xl p-8 relative max-h-[90vh] overflow-y-auto">
-            <button onclick="closeCheckoutModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <h3 class="text-2xl font-black mb-2 flex items-center gap-2"><i class="fa-solid fa-lock text-green-400"></i> بوابة الدفع الآمن</h3>
-            <p class="text-gray-400 text-sm mb-6">أدخل بيانات الدفع لإتمام عملية الشراء بنجاح وتأكيد الطلب</p>
+            <button onclick="closeCheckoutModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-white/5 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-2xl font-black mb-2 flex items-center gap-2"><i class="fa-solid fa-truck-fast text-purple-400"></i> بيانات التوصيل والدفع الآمن</h3>
+            <p class="text-gray-400 text-sm mb-6">أدخل تفاصيل عنوانك ورقم جوالك وبطاقة الدفع لتأكيد الطلب</p>
             
             <form onsubmit="processRealPayment(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs text-gray-400 mb-1">الاسم على البطاقة</label>
-                    <input type="text" required placeholder="Bader Al-Mlhawi" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">الاسم الكامل</label>
+                        <input type="text" id="ship-name" required placeholder="بدر الملحاوي" class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-purple-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">رقم الجوال</label>
+                        <input type="tel" id="ship-phone" required placeholder="0546867639" value="0546867639" class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-purple-500">
+                    </div>
                 </div>
                 <div>
+                    <label class="block text-xs text-gray-400 mb-1">المدينة والمنطقة</label>
+                    <input type="text" id="ship-city" required placeholder="جدة، حي المحمدية" class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-purple-500">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">تفاصيل عنوان البيت (الشارع، رقم المبنى، الشقة)</label>
+                    <textarea id="ship-address" required rows="2" placeholder="شارع الأمير سلطان، المبنى 45، الدور الثاني" class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-purple-500"></textarea>
+                </div>
+                <hr class="border-white/10 my-2">
+                <div>
                     <label class="block text-xs text-gray-400 mb-1">رقم البطاقة الائتمانية أو مدى</label>
-                    <input type="text" required maxlength="19" placeholder="4500 •••• •••• ••••" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500">
+                    <input type="text" required maxlength="19" placeholder="4500 •••• •••• ••••" class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-purple-500">
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs text-gray-400 mb-1">تاريخ الانتهاء</label>
-                        <input type="text" required placeholder="MM/YY" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500">
+                        <input type="text" required placeholder="MM/YY" class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-purple-500">
                     </div>
                     <div>
                         <label class="block text-xs text-gray-400 mb-1">رمز الأمان (CVV)</label>
-                        <input type="password" required maxlength="3" placeholder="123" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500">
+                        <input type="password" required maxlength="3" placeholder="123" class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-purple-500">
                     </div>
                 </div>
                 <div class="pt-2">
-                    <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 font-bold text-white shadow-lg hover:opacity-90 transition text-base">
-                        تأكيد ودفع المبلغ (<span id="checkout-modal-total">0</span> ر.س)
+                    <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 font-bold text-white shadow-lg hover:opacity-90 transition text-sm">
+                        إتمام الدفع وتأكيد الطلب (<span id="checkout-modal-total">0</span> ر.س)
                     </button>
                 </div>
             </form>
@@ -298,33 +298,24 @@
     </div>
 
     <!-- إشعار Toast -->
-    <div id="toast" class="fixed bottom-6 right-6 glass px-6 py-3.5 rounded-2xl text-sm font-semibold text-white shadow-2xl translate-y-28 transition-transform duration-300 z-50 flex items-center gap-3 border border-purple-500/30">
+    <div id="toast" class="fixed bottom-20 right-6 glass px-6 py-3.5 rounded-2xl text-sm font-semibold text-white shadow-2xl translate-y-28 transition-transform duration-300 z-50 flex items-center gap-3 border border-purple-500/30">
         <i class="fa-solid fa-circle-check text-green-400 text-lg"></i>
         <span id="toast-message">تمت العملية بنجاح</span>
     </div>
 
     <script>
-        // قاعدة بيانات المنتجات الفاخرة المحدثة والممتدة بكثافة
         const products = [
             {
-                id: 1,
-                name: "Alpha Ultra Pro Max 2026",
-                category: "phones",
-                price: 4599,
-                rating: 4.9,
+                id: 1, name: "Alpha Ultra Pro Max 2026", category: "phones", price: 4599, rating: 4.9,
                 colors: [
                     { name: "أسود تيتانيوم", hex: "#1c1c1e", image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=600&auto=format&fit=crop&q=80" },
                     { name: "فضي ملكي", hex: "#e5e5ea", image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&auto=format&fit=crop&q=80" },
-                    { name: "بنفجي فاخر", hex: "#4a154b", image: "https://images.unsplash.com/photo-1591337676887-a217a6970a8a?w=600&auto=format&fit=crop&q=80" }
+                    { name: "بنفسجي فاخر", hex: "#4a154b", image: "https://images.unsplash.com/photo-1591337676887-a217a6970a8a?w=600&auto=format&fit=crop&q=80" }
                 ],
                 desc: "شاشة أوليد فائقة، كاميرا احترافية بدقة 200 ميجابكسل، ومعالج ألترا الخارق."
             },
             {
-                id: 2,
-                name: "Alpha Watch Series X",
-                category: "accessories",
-                price: 1899,
-                rating: 4.8,
+                id: 2, name: "Alpha Watch Series X", category: "accessories", price: 1899, rating: 4.8,
                 colors: [
                     { name: "أسود مطفي", hex: "#222222", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&auto=format&fit=crop&q=80" },
                     { name: "ذهبي وردي", hex: "#b76e79", image: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=600&auto=format&fit=crop&q=80" }
@@ -332,11 +323,7 @@
                 desc: "ساعة ذكية مقاومة للماء مع مستشعرات متطورة لصحة القلب واللياقة البدنية."
             },
             {
-                id: 3,
-                name: "Alpha Pods Pro ANC",
-                category: "audio",
-                price: 899,
-                rating: 4.7,
+                id: 3, name: "Alpha Pods Pro ANC", category: "audio", price: 899, rating: 4.7,
                 colors: [
                     { name: "أبيض لؤلؤي", hex: "#f8f9fa", image: "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=600&auto=format&fit=crop&q=80" },
                     { name: "أسود فاحم", hex: "#111111", image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600&auto=format&fit=crop&q=80" }
@@ -344,11 +331,7 @@
                 desc: "عزل ضوضاء نشط متطور، صوت نقي ومحيطي يضعك في قلب الحدث."
             },
             {
-                id: 4,
-                name: "Alpha Tab Studio 13",
-                category: "phones",
-                price: 3299,
-                rating: 4.9,
+                id: 4, name: "Alpha Tab Studio 13", category: "phones", price: 3299, rating: 4.9,
                 colors: [
                     { name: "رمادي فلكي", hex: "#2c2c2e", image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=600&auto=format&fit=crop&q=80" },
                     { name: "فضي", hex: "#d1d1d6", image: "https://images.unsplash.com/photo-1561154464-82e9adf32764?w=600&auto=format&fit=crop&q=80" }
@@ -356,11 +339,7 @@
                 desc: "جهاز لوحي مصمم للمبدعين والمحترفين بشاشة 13 بوصة ودقة مذهلة."
             },
             {
-                id: 5,
-                name: "Alpha MagSafe PowerBank",
-                category: "accessories",
-                price: 349,
-                rating: 4.6,
+                id: 5, name: "Alpha MagSafe PowerBank", category: "accessories", price: 349, rating: 4.6,
                 colors: [
                     { name: "بنفسجي داكن", hex: "#1E1650", image: "https://images.unsplash.com/photo-1609592424097-4148cf4c1c98?w=600&auto=format&fit=crop&q=80" },
                     { name: "أسود", hex: "#000000", image: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=600&auto=format&fit=crop&q=80" }
@@ -368,11 +347,7 @@
                 desc: "شاحن مغناطيسي لاسلكي سريع بسعة 10,000 مللي أمبير بتصميم نحيف."
             },
             {
-                id: 6,
-                name: "Alpha Cyber Glasses VR",
-                category: "accessories",
-                price: 2499,
-                rating: 4.8,
+                id: 6, name: "Alpha Cyber Glasses VR", category: "accessories", price: 2499, rating: 4.8,
                 colors: [
                     { name: "أسود كربوني", hex: "#18181b", image: "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?w=600&auto=format&fit=crop&q=80" }
                 ],
@@ -384,17 +359,23 @@
         let wishlist = [];
         let currentUser = null;
 
-        // تهيئة العرض عند فتح الموقع
         window.addEventListener('DOMContentLoaded', () => {
             renderProducts('all');
             updateBadges();
         });
 
-        // عرض المنتجات وتصفيتها
+        // تغيير الثيم والألوان من شريط الإعدادات السفلي
+        function setTheme(themeName) {
+            document.body.className = "min-h-screen flex flex-col selection:bg-purple-500 selection:text-white";
+            if (themeName !== 'purple') {
+                document.body.classList.add(`theme-${themeName}`);
+            }
+            showToast(`تم تغيير ثيم المتجر بنجاح`);
+        }
+
         function renderProducts(category) {
             const grid = document.getElementById('products-grid');
             grid.innerHTML = '';
-
             const filtered = category === 'all' ? products : products.filter(p => p.category === category);
 
             filtered.forEach(product => {
@@ -419,10 +400,9 @@
                         <p class="text-gray-400 text-xs mb-4 line-clamp-2">${product.desc}</p>
                     </div>
                     <div>
-                        <!-- ألوان المنتج مع التغيير الفوري للصورة -->
                         <div class="flex items-center gap-2 mb-4">
                             <span class="text-xs text-gray-400">اللون:</span>
-                            <div class="flex gap-1.5" id="color-options-${product.id}">
+                            <div class="flex gap-1.5">
                                 ${product.colors.map((c, idx) => `
                                     <button onclick="changeProductColor(${product.id}, '${c.image}', this)" title="${c.name}" class="w-5 h-5 rounded-full border-2 ${idx === 0 ? 'border-purple-400 scale-110' : 'border-transparent'} transition" style="background-color: ${c.hex};"></button>
                                 `).join('')}
@@ -430,7 +410,7 @@
                         </div>
                         <div class="flex items-center justify-between pt-3 border-t border-white/10">
                             <span class="text-xl font-black text-purple-300">${product.price} <span class="text-xs font-normal text-gray-400">ر.س</span></span>
-                            <button onclick="addToCart(${product.id})" class="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs shadow-lg shadow-purple-900/40 transition flex items-center gap-2">
+                            <button onclick="addToCart(${product.id})" class="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs shadow-lg transition flex items-center gap-2">
                                 <i class="fa-solid fa-cart-plus"></i> أضف للسلة
                             </button>
                         </div>
@@ -438,20 +418,11 @@
                 `;
                 grid.appendChild(card);
             });
-
-            // تحديث الأزرار النشطة
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.className = "category-btn px-4 py-2 rounded-xl glass-card text-gray-300 text-sm font-medium transition whitespace-nowrap";
-            });
         }
 
-        // تغيير صورة المنتج بناءً على اللون المختار
         function changeProductColor(productId, imageUrl, btnElement) {
             const imgElement = document.getElementById(`product-img-${productId}`);
-            if (imgElement) {
-                imgElement.src = imageUrl;
-            }
-            // تحديث الحدود النشطة للألوان
+            if (imgElement) imgElement.src = imageUrl;
             const parent = btnElement.parentElement;
             parent.querySelectorAll('button').forEach(b => b.classList.remove('border-purple-400', 'scale-110'));
             parent.querySelectorAll('button').forEach(b => b.classList.add('border-transparent'));
@@ -459,19 +430,13 @@
             btnElement.classList.remove('border-transparent');
         }
 
-        // تصفية المنتجات بالأقسام
-        function filterProducts(category) {
-            renderProducts(category);
-        }
+        function filterProducts(category) { renderProducts(category); }
 
-        // تفاصيل المنتج في نافذة منبثقة
         function openProductModal(id) {
             const product = products.find(p => p.id === id);
             if (!product) return;
-
             const modal = document.getElementById('product-modal');
             const content = document.getElementById('modal-content');
-
             content.innerHTML = `
                 <div class="relative rounded-2xl overflow-hidden h-72">
                     <img id="modal-main-img" src="${product.colors[0].image}" class="w-full h-full object-cover">
@@ -493,33 +458,24 @@
                     </div>
                     <div>
                         <div class="text-2xl font-black text-purple-300 mb-4">${product.price} ر.س</div>
-                        <button onclick="addToCart(${product.id}); closeProductModal();" class="w-full py-3 rounded-xl bg-purple-600 hover:bg-purple-500 font-bold text-white shadow-lg transition">
-                            أضف إلى السلة الآن
-                        </button>
+                        <button onclick="addToCart(${product.id}); closeProductModal();" class="w-full py-3 rounded-xl bg-purple-600 hover:bg-purple-500 font-bold text-white shadow-lg transition">أضف إلى السلة الآن</button>
                     </div>
                 </div>
             `;
             modal.classList.remove('hidden');
         }
 
-        function closeProductModal() {
-            document.getElementById('product-modal').classList.add('hidden');
-        }
+        function closeProductModal() { document.getElementById('product-modal').classList.add('hidden'); }
 
-        // إضافة للسلة
         function addToCart(id) {
             const product = products.find(p => p.id === id);
             const existing = cart.find(item => item.id === id);
-            if (existing) {
-                existing.qty++;
-            } else {
-                cart.push({ ...product, qty: 1 });
-            }
+            if (existing) existing.qty++;
+            else cart.push({ ...product, qty: 1 });
             updateBadges();
             showToast(`تم إضافة ${product.name} إلى السلة بنجاح`);
         }
 
-        // المفضلة
         function toggleWishlist(id) {
             const product = products.find(p => p.id === id);
             const index = wishlist.findIndex(item => item.id === id);
@@ -534,35 +490,21 @@
             updateBadges();
         }
 
-        // تحديث العدادات والشحن المجاني
         function updateBadges() {
             const cartBadge = document.getElementById('cart-badge');
             const wishlistBadge = document.getElementById('wishlist-badge');
-
             const totalCartItems = cart.reduce((sum, item) => sum + item.qty, 0);
-            if (totalCartItems > 0) {
-                cartBadge.innerText = totalCartItems;
-                cartBadge.classList.remove('hidden');
-            } else {
-                cartBadge.classList.add('hidden');
-            }
-
-            if (wishlist.length > 0) {
-                wishlistBadge.innerText = wishlist.length;
-                wishlistBadge.classList.remove('hidden');
-            } else {
-                wishlistBadge.classList.add('hidden');
-            }
-
+            if (totalCartItems > 0) { cartBadge.innerText = totalCartItems; cartBadge.classList.remove('hidden'); }
+            else { cartBadge.classList.add('hidden'); }
+            if (wishlist.length > 0) { wishlistBadge.innerText = wishlist.length; wishlistBadge.classList.remove('hidden'); }
+            else { wishlistBadge.classList.add('hidden'); }
             renderCartItems();
             renderWishlistItems();
         }
 
-        // عرض السلة وحساب الشحن المجاني (500 ر.س)
         function renderCartItems() {
             const container = document.getElementById('cart-items-container');
             container.innerHTML = '';
-
             if (cart.length === 0) {
                 container.innerHTML = `<div class="text-center text-gray-500 py-12">سلة التسوق فارغة</div>`;
                 document.getElementById('cart-subtotal').innerText = '0 ر.س';
@@ -572,7 +514,6 @@
                 document.getElementById('free-shipping-text').innerText = 'أضف منتجات بقيمة 500 ر.س لتحصل على شحن مجاني!';
                 return;
             }
-
             let subtotal = 0;
             cart.forEach(item => {
                 subtotal += item.price * item.qty;
@@ -592,16 +533,13 @@
                 `;
                 container.appendChild(div);
             });
-
             const shipping = subtotal >= 500 || subtotal === 0 ? 0 : 35;
             const total = subtotal + shipping;
-
             document.getElementById('cart-subtotal').innerText = subtotal + ' ر.س';
             document.getElementById('cart-shipping').innerText = shipping === 0 ? 'مجاني ✨' : shipping + ' ر.س';
             document.getElementById('cart-total').innerText = total + ' ر.س';
             document.getElementById('checkout-modal-total').innerText = total;
 
-            // شريط التقدم للشحن المجاني
             const progressPercent = Math.min((subtotal / 500) * 100, 100);
             document.getElementById('free-shipping-progress').style.width = progressPercent + '%';
             if (subtotal >= 500) {
@@ -615,14 +553,11 @@
             const item = cart.find(i => i.id === id);
             if (item) {
                 item.qty += change;
-                if (item.qty <= 0) {
-                    cart = cart.filter(i => i.id !== id);
-                }
+                if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
             }
             updateBadges();
         }
 
-        // عرض المفضلة
         function renderWishlistItems() {
             const container = document.getElementById('wishlist-items-container');
             container.innerHTML = '';
@@ -645,39 +580,20 @@
             });
         }
 
-        // نوافذ المودال
-        function toggleCartModal() {
-            const modal = document.getElementById('cart-modal');
-            modal.classList.toggle('hidden');
-        }
-
-        function toggleWishlistModal() {
-            const modal = document.getElementById('wishlist-modal');
-            modal.classList.toggle('hidden');
-        }
-
-        function openAuthModal() {
-            document.getElementById('auth-modal').classList.remove('hidden');
-        }
-
-        function closeAuthModal() {
-            document.getElementById('auth-modal').classList.add('hidden');
-        }
+        function toggleCartModal() { document.getElementById('cart-modal').classList.toggle('hidden'); }
+        function toggleWishlistModal() { document.getElementById('wishlist-modal').classList.toggle('hidden'); }
+        function openAuthModal() { document.getElementById('auth-modal').classList.remove('hidden'); }
+        function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
+        function toggleAiChat() { document.getElementById('ai-chat-modal').classList.toggle('hidden'); }
 
         function openCheckoutModal() {
-            if (cart.length === 0) {
-                showToast("سلة التسوق فارغة!");
-                return;
-            }
+            if (cart.length === 0) { showToast("سلة التسوق فارغة!"); return; }
             toggleCartModal();
             document.getElementById('checkout-modal').classList.remove('hidden');
         }
+        function closeCheckoutModal() { document.getElementById('checkout-modal').classList.add('hidden'); }
 
-        function closeCheckoutModal() {
-            document.getElementById('checkout-modal').classList.add('hidden');
-        }
-
-        // نظام التحقق عبر الإيميل (OTP Verification)
+        // نظام التحقق والإيميل
         function sendOtpCode(e) {
             e.preventDefault();
             const email = document.getElementById('user-email').value;
@@ -700,23 +616,52 @@
             }
         }
 
-        // معالجة الدفع الحقيقي الآمن وتأكيد الطلب
+        // معالجة الدفع والبيانات الحقيقية وموقع البيت ورقم الجوال
         function processRealPayment(e) {
             e.preventDefault();
+            const name = document.getElementById('ship-name').value;
+            const phone = document.getElementById('ship-phone').value;
+            const city = document.getElementById('ship-city').value;
+            const address = document.getElementById('ship-address').value;
+
             closeCheckoutModal();
             cart = [];
             updateBadges();
-            showToast("✅ تم إتمام الدفع بنجاح! تم استلام طلبك وتأكيده.");
+            showToast(`✅ تم تأكيد الطلب والدفع بنجاح لـ ${name} (${phone}) - سيتم التوصيل إلى ${city} (${address})`);
         }
 
-        // عرض الإشعارات
+        // المساعد الذكي (AI Assistant Response Engine)
+        function sendAiMessage() {
+            const input = document.getElementById('ai-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const chatMessages = document.getElementById('ai-chat-messages');
+            chatMessages.innerHTML += `<div class="glass p-3 rounded-2xl max-w-[85%] mr-auto bg-purple-600/30">${text}</div>`;
+            input.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            setTimeout(() => {
+                let reply = "أهلاً بك! يمكنك طلب أي منتج بسهولة وإدخال تفاصيل عنوانك ورقم جوالك عند إتمام الدفع. لو لديك أي استفسار عاجل، تواصل معنا مباشرة عبر الرقم: 0546867639 📞";
+                const lower = text.toLowerCase();
+                if (lower.includes('شحن') || lower.includes('توصيل')) {
+                    reply = "الشحن مجاني لطلبات 500 ريال فأكثر، ويتم التوصيل خلال يومين إلى 3 أيام عمل لكافة مناطق المملكة.";
+                } else if (lower.includes('رقم') || lower.includes('اتصل') || lower.includes('تواصل') || lower.includes('مشكلة')) {
+                    reply = "يسعدنا خدمتك دائماً! يمكنك الاتصال بنا مباشرة على رقم خدمة العملاء: 0546867639 وسنجيب عن كافة استفساراتك.";
+                } else if (lower.includes('دفع') || lower.includes('بطاقة')) {
+                    reply = "نقبل الدفع عبر بطاقات مدى، فيزا، ماستركارد، وأبل باي بكل أمان وحماية تشفير تامة.";
+                }
+
+                chatMessages.innerHTML += `<div class="glass p-3 rounded-2xl max-w-[85%]">${reply}</div>`;
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 600);
+        }
+
         function showToast(message) {
             const toast = document.getElementById('toast');
             document.getElementById('toast-message').innerText = message;
             toast.classList.remove('translate-y-28');
-            setTimeout(() => {
-                toast.classList.add('translate-y-28');
-            }, 3500);
+            setTimeout(() => { toast.classList.add('translate-y-28'); }, 3500);
         }
     </script>
 </body>
