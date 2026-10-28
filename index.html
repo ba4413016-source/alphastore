@@ -12,7 +12,6 @@
             --bg-main: #0F0A1E;
             --glass-bg: rgba(30, 22, 80, 0.45);
             --glass-card: rgba(20, 14, 45, 0.65);
-            --accent-purple: #9333ea;
         }
         body.theme-emerald {
             --bg-main: #061a14;
@@ -41,18 +40,21 @@
 </head>
 <body class="min-h-screen flex flex-col selection:bg-purple-500 selection:text-white">
 
-    <!-- شريط العروض العلوي -->
+    <!-- شريط العروض والاتصال -->
     <div class="bg-gradient-to-r from-purple-900 via-indigo-900 to-purple-900 text-xs py-2 px-4 text-center border-b border-purple-800/50 font-medium">
-        🔥 خصم حقيقي وشحن مجاني للطلبات أكثر من <span class="text-yellow-400 font-bold">300 ر.س</span> | الدعم الفني المباشر: <a href="tel:0546867639" class="underline font-bold text-yellow-300">0546867639</a>
+        🔥 خصم حقيقي وشحن مجاني للطلبات أكثر من <span class="text-yellow-400 font-bold">300 ر.س</span> | الدعم المباشر: <a href="tel:0546867639" class="underline font-bold text-yellow-300">0546867639</a>
     </div>
 
-    <!-- الشريط العلوي Navigation Bar -->
+    <!-- Navbar -->
     <header class="glass sticky top-0 z-40 border-b border-white/10 px-4 lg:px-12 py-3 flex items-center justify-between">
         <a href="#" class="text-2xl font-black tracking-wider bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-300 bg-clip-text text-transparent">
             ALPHA <span class="text-white font-light">CLOTHING</span>
         </a>
 
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2">
+            <button onclick="openSizeGuideModal()" class="px-3 py-1.5 rounded-xl glass-card text-xs text-purple-300 hover:text-white transition flex items-center gap-1 font-bold">
+                <i class="fa-solid fa-ruler-combined"></i> دليل المقاسات
+            </button>
             <button onclick="toggleWishlistModal()" class="relative p-2.5 rounded-xl glass-card hover:bg-white/10 transition">
                 <i class="fa-regular fa-heart text-lg text-pink-400"></i>
                 <span id="wishlist-badge" class="absolute -top-1 -right-1 bg-pink-600 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold hidden">0</span>
@@ -64,24 +66,68 @@
         </div>
     </header>
 
-    <!-- الواجهة الرئيسية Hero -->
+    <!-- Hero Section -->
     <section class="relative px-4 py-12 lg:py-20 max-w-7xl mx-auto w-full text-center">
         <span class="px-4 py-1.5 rounded-full text-xs font-semibold bg-purple-500/10 text-purple-300 border border-purple-500/20 mb-4 inline-block">
-            ✨ تشكيلة شتاء وصيف 2026 الحصرية
+            ✨ تشكيلة أزياء 2026 الحصرية والمحفوظة تلقائياً
         </span>
         <h1 class="text-3xl lg:text-6xl font-black mb-4 leading-tight">
             ارتدِ الفخامة والتميز مع <br><span class="bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-300 bg-clip-text text-transparent">الفا ستور للأزياء</span>
         </h1>
         <p class="text-gray-300 text-sm lg:text-base max-w-xl mx-auto mb-8">
-            أرقى التنسيقات العصرية، خامات قطنية 100%، وتصاميم أوفرسايز تناسب ذوقك الفاخر.
+            أرقى التنسيقات العصرية، خامات قطنية 100%، وتصاميم أوفرسايز تناسب ذوقك مع تتبع مباشر لشحناتك.
         </p>
+    </section>
+
+    <!-- قسم التنسيقات الكاملة (Lookbook Bundles) -->
+    <section class="max-w-7xl mx-auto px-4 lg:px-12 mb-12 w-full">
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <h2 class="text-xl lg:text-2xl font-black flex items-center gap-2"><i class="fa-solid fa-shirt text-purple-400"></i> تنسيقات كاملة (Lookbook Bundles)</h2>
+                <p class="text-xs text-gray-400 mt-1">احصل على إطلالة كاملة متناسقة بخصم خاص</p>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- بكج 1 -->
+            <div class="glass-card rounded-3xl p-5 flex flex-col sm:flex-row gap-5 items-center">
+                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&auto=format&fit=crop&q=80" class="w-full sm:w-40 h-48 object-cover rounded-2xl">
+                <div class="flex-1">
+                    <span class="px-2.5 py-1 bg-purple-500/20 text-purple-300 rounded-lg text-[10px] font-bold">خصم البكج 20%</span>
+                    <h3 class="font-bold text-base mt-2 mb-1">إطلالة الشارع الفاخرة (Streetwear Vibe)</h3>
+                    <p class="text-xs text-gray-400 mb-3">هودي ثقيل أسود + بنطال كارجو زيتي تكتيكي</p>
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="text-lg font-black text-purple-300">419 ر.س</span>
+                            <span class="text-xs text-gray-500 line-through mr-2">528 ر.س</span>
+                        </div>
+                        <button onclick="addBundleToCart('إطلالة الشارع الفاخرة', 419)" class="px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl text-xs font-bold shadow-lg hover:opacity-90 transition">شراء الإطلالة كاملة</button>
+                    </div>
+                </div>
+            </div>
+            <!-- بكج 2 -->
+            <div class="glass-card rounded-3xl p-5 flex flex-col sm:flex-row gap-5 items-center">
+                <img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=600&auto=format&fit=crop&q=80" class="w-full sm:w-40 h-48 object-cover rounded-2xl">
+                <div class="flex-1">
+                    <span class="px-2.5 py-1 bg-pink-500/20 text-pink-300 rounded-lg text-[10px] font-bold">خصم البكج 15%</span>
+                    <h3 class="font-bold text-base mt-2 mb-1">إطلالة الصيف الكاجوال (Summer Fresh)</h3>
+                    <p class="text-xs text-gray-400 mb-3">تيشرت أوفرسايز أبيض + كاب الفا ستور المميز</p>
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="text-lg font-black text-purple-300">229 ر.س</span>
+                            <span class="text-xs text-gray-500 line-through mr-2">269 ر.س</span>
+                        </div>
+                        <button onclick="addBundleToCart('إطلالة الصيف الكاجوال', 229)" class="px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl text-xs font-bold shadow-lg hover:opacity-90 transition">شراء الإطلالة كاملة</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <!-- قسم الملابس والمنتجات -->
     <main class="max-w-7xl mx-auto px-4 lg:px-12 py-6 flex-1 w-full">
         <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
             <div>
-                <h2 class="text-2xl font-black">تشكيلة الملابس</h2>
+                <h2 class="text-2xl font-black">تشكيلة الملابس القطنية</h2>
                 <p class="text-gray-400 text-xs mt-1">اختر الخيار المفضل والمقاس المناسب</p>
             </div>
             <div class="flex gap-2 overflow-x-auto pb-2 w-full md:w-auto">
@@ -95,7 +141,7 @@
         <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </main>
 
-    <!-- شريط التنقل السفلي الاحترافي (Bottom Tab Bar) -->
+    <!-- Bottom Navigation Bar -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 glass border-t border-white/10 py-2 px-4 flex justify-around items-center text-center">
         <button onclick="scrollToTop()" class="flex flex-col items-center gap-1 text-gray-400 hover:text-purple-400 text-[11px]">
             <i class="fa-solid fa-house text-lg"></i>
@@ -119,60 +165,89 @@
         </button>
     </nav>
 
-    <!-- نافذة الصفحة الشخصية (Profile Modal: تعديل الاسم، الصورة، والمشتريات) -->
+    <!-- نافذة دليل المقاسات ومساعد المقاس الذكي (Size Guide Modal) -->
+    <div id="sizeguide-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="glass max-w-lg w-full rounded-3xl p-6 relative max-h-[85vh] overflow-y-auto">
+            <button onclick="closeSizeGuideModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-white/5 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-xl font-black mb-2 flex items-center gap-2"><i class="fa-solid fa-ruler-combined text-purple-400"></i> دليل المقاسات ومساعد القياس الذكي</h3>
+            <p class="text-xs text-gray-400 mb-4">احسب مقاسك المثالي فوراً بناءً على طولك ووزنك</p>
+
+            <!-- حاسبة المقاس -->
+            <div class="glass p-4 rounded-2xl mb-6 bg-purple-900/20 border border-purple-500/20">
+                <h4 class="font-bold text-xs text-purple-300 mb-3">حاسبة المقاس المناسب لك:</h4>
+                <div class="grid grid-cols-2 gap-3 mb-3">
+                    <div>
+                        <label class="block text-[10px] text-gray-400 mb-1">الطول (سم)</label>
+                        <input type="number" id="fit-height" placeholder="175" class="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] text-gray-400 mb-1">الوزن (كجم)</label>
+                        <input type="number" id="fit-weight" placeholder="70" class="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-xs">
+                    </div>
+                </div>
+                <button onclick="calculateBestSize()" class="w-full py-2 bg-purple-600 rounded-xl text-xs font-bold text-white shadow">احسب المقاس المقترح</button>
+                <div id="size-result" class="mt-3 text-center text-xs font-bold text-yellow-300 hidden"></div>
+            </div>
+
+            <!-- جدول المقاسات بالسنتمتر -->
+            <table class="w-full text-center text-xs border-collapse">
+                <thead>
+                    <tr class="border-b border-white/10 text-purple-300">
+                        <th class="py-2">المقاس</th>
+                        <th class="py-2">الصدر (سم)</th>
+                        <th class="py-2">الطول (سم)</th>
+                        <th class="py-2">الكتف (سم)</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-300 divide-y divide-white/5">
+                    <tr><td class="py-2 font-bold text-white">S</td><td>104</td><td>70</td><td>52</td></tr>
+                    <tr><td class="py-2 font-bold text-white">M</td><td>110</td><td>72</td><td>54</td></tr>
+                    <tr><td class="py-2 font-bold text-white">L</td><td>116</td><td>74</td><td>56</td></tr>
+                    <tr><td class="py-2 font-bold text-white">XL</td><td>122</td><td>76</td><td>58</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- نافذة الصفحة الشخصية وتتبع الشحنات المباشر -->
     <div id="profile-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
         <div class="glass max-w-md w-full rounded-3xl p-6 relative max-h-[85vh] overflow-y-auto">
             <button onclick="closeProfileModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-white/5 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
             
             <div class="text-center mb-6">
-                <div class="relative w-24 h-24 mx-auto mb-3">
+                <div class="relative w-20 h-20 mx-auto mb-3">
                     <img id="user-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80" class="w-full h-full object-cover rounded-full border-2 border-purple-500 shadow-xl">
-                    <button onclick="changeAvatar()" class="absolute bottom-0 right-0 bg-purple-600 text-white w-7 h-7 rounded-full text-xs flex items-center justify-center shadow-lg"><i class="fa-solid fa-camera"></i></button>
                 </div>
                 <h3 id="user-display-name" class="text-xl font-black">بدر علي الملحاوي</h3>
                 <span class="text-xs text-purple-400 font-semibold">عميل VIP متميز</span>
             </div>
 
-            <!-- تعديل بيانات الحساب -->
-            <form onsubmit="updateProfileInfo(event)" class="space-y-3 mb-6">
-                <div>
-                    <label class="block text-xs text-gray-400 mb-1">الاسم الشخصي</label>
-                    <input type="text" id="edit-user-name" value="بدر علي الملحاوي" required class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-purple-500">
+            <!-- أداة تتبع الشحنة المباشرة برقم الطلب -->
+            <div class="glass p-4 rounded-2xl mb-6 bg-purple-900/20 border border-purple-500/20">
+                <h4 class="font-bold text-xs text-purple-300 mb-2 flex items-center gap-1"><i class="fa-solid fa-location-dot"></i> تتبع شحنتك المباشر</h4>
+                <div class="flex gap-2 mb-3">
+                    <input type="text" id="track-order-input" placeholder="أدخل رقم الشحنة مثل ALFA-8492" class="flex-1 px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-xs text-white">
+                    <button onclick="trackOrder()" class="px-3 py-2 bg-purple-600 rounded-xl text-xs font-bold text-white">تتبع</button>
                 </div>
-                <div>
-                    <label class="block text-xs text-gray-400 mb-1">رابط الصورة الشخصية</label>
-                    <input type="url" id="edit-user-avatar-url" placeholder="https://..." class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-purple-500">
-                </div>
-                <button type="submit" class="w-full py-2.5 rounded-xl bg-purple-600 font-bold text-white text-xs shadow-lg">حفظ التغييرات</button>
-            </form>
+                <div id="tracking-status-result" class="hidden text-xs space-y-2 pt-2 border-t border-white/10"></div>
+            </div>
 
-            <!-- سجل المشتريات -->
+            <!-- سجل المشتريات المحفوظ -->
             <div class="border-t border-white/10 pt-4">
-                <h4 class="font-bold text-sm mb-3 flex items-center gap-2"><i class="fa-solid fa-receipt text-purple-400"></i> سجل مشترياتي</h4>
-                <div id="orders-history-container" class="space-y-2 text-xs">
-                    <div class="glass p-3 rounded-xl flex justify-between items-center">
-                        <div>
-                            <div class="font-bold">هودي ألترا أوفرسايز (أسود)</div>
-                            <div class="text-[10px] text-gray-400">طلب #8492 • قبل 3 أيام</div>
-                        </div>
-                        <span class="px-2 py-1 bg-green-500/20 text-green-300 rounded-lg font-bold">تم التوصيل</span>
-                    </div>
-                </div>
+                <h4 class="font-bold text-sm mb-3 flex items-center gap-2"><i class="fa-solid fa-receipt text-purple-400"></i> سجل طلباتي المحفوظة</h4>
+                <div id="orders-history-container" class="space-y-2 text-xs"></div>
             </div>
         </div>
     </div>
 
-    <!-- نافذة الإعدادات (Settings Modal: اللغة، الدولة، الثيمات، الخروج) -->
+    <!-- نافذة الإعدادات -->
     <div id="settings-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
         <div class="glass max-w-md w-full rounded-3xl p-6 relative">
             <button onclick="closeSettingsModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-white/5 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-            
             <h3 class="text-xl font-black mb-6 flex items-center gap-2"><i class="fa-solid fa-sliders text-purple-400"></i> إعدادات المتجر</h3>
-
             <div class="space-y-5 text-sm">
-                <!-- تغيير الألوان والأنساق -->
                 <div>
-                    <label class="block text-xs text-gray-400 mb-2">مظهر ولون المتجر (الثيم):</label>
+                    <label class="block text-xs text-gray-400 mb-2">ثيم المتجر:</label>
                     <div class="grid grid-cols-2 gap-2">
                         <button onclick="setTheme('purple')" class="p-2.5 rounded-xl glass-card text-xs flex items-center gap-2 font-bold"><div class="w-4 h-4 rounded-full bg-purple-600"></div> بنفسجي ملكي</button>
                         <button onclick="setTheme('emerald')" class="p-2.5 rounded-xl glass-card text-xs flex items-center gap-2 font-bold"><div class="w-4 h-4 rounded-full bg-emerald-600"></div> زمردي أخضر</button>
@@ -180,40 +255,14 @@
                         <button onclick="setTheme('rose')" class="p-2.5 rounded-xl glass-card text-xs flex items-center gap-2 font-bold"><div class="w-4 h-4 rounded-full bg-rose-600"></div> وردي فاخر</button>
                     </div>
                 </div>
-
-                <!-- تغيير اللغة -->
-                <div>
-                    <label class="block text-xs text-gray-400 mb-1">اللغة (Language):</label>
-                    <select onchange="changeLanguage(this.value)" class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none">
-                        <option value="ar" class="bg-gray-900">العربية (Arabic)</option>
-                        <option value="en" class="bg-gray-900">English</option>
-                    </select>
-                </div>
-
-                <!-- تغيير الدولة -->
-                <div>
-                    <label class="block text-xs text-gray-400 mb-1">دولة الشحن والتوصيل:</label>
-                    <select class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none">
-                        <option value="SA" class="bg-gray-900">المملكة العربية السعودية 🇸🇦</option>
-                        <option value="AE" class="bg-gray-900">الإمارات العربية المتحدة 🇦🇪</option>
-                        <option value="KW" class="bg-gray-900">دولة الكويت 🇰🇼</option>
-                    </select>
-                </div>
-
-                <hr class="border-white/10">
-
-                <button onclick="logoutUser()" class="w-full py-3 rounded-xl bg-red-600/20 text-red-400 border border-red-500/30 hover:bg-red-600 hover:text-white font-bold text-xs transition flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-right-from-bracket"></i> تسجيل الخروج
-                </button>
             </div>
         </div>
     </div>
 
-    <!-- نافذة الدعم الفني والمساعد الذكي (Support Center Modal) -->
+    <!-- نافذة الدعم الفني -->
     <div id="support-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
         <div class="glass max-w-md w-full h-[520px] rounded-3xl p-5 flex flex-col relative">
             <button onclick="closeSupportModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-white/5 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-
             <div class="flex items-center gap-3 pb-3 border-b border-white/10 mb-3">
                 <div class="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center text-white"><i class="fa-solid fa-headset text-lg"></i></div>
                 <div>
@@ -221,26 +270,15 @@
                     <span class="text-[10px] text-green-400">خدمة العملاء متوفرة 24/7</span>
                 </div>
             </div>
-
-            <!-- أزرار اتصال سريع -->
             <div class="grid grid-cols-2 gap-2 mb-3">
-                <a href="tel:0546867639" class="p-2.5 rounded-xl bg-yellow-500/20 text-yellow-300 border border-yellow-500/30 text-xs font-bold flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-phone"></i> اتصل بـ 0546867639
-                </a>
-                <a href="https://wa.me/966546867639" target="_blank" class="p-2.5 rounded-xl bg-green-500/20 text-green-300 border border-green-500/30 text-xs font-bold flex items-center justify-center gap-2">
-                    <i class="fa-brands fa-whatsapp"></i> واتساب مباشر
-                </a>
+                <a href="tel:0546867639" class="p-2.5 rounded-xl bg-yellow-500/20 text-yellow-300 border border-yellow-500/30 text-xs font-bold flex items-center justify-center gap-2"><i class="fa-solid fa-phone"></i> 0546867639</a>
+                <a href="https://wa.me/966546867639" target="_blank" class="p-2.5 rounded-xl bg-green-500/20 text-green-300 border border-green-500/30 text-xs font-bold flex items-center justify-center gap-2"><i class="fa-brands fa-whatsapp"></i> واتساب مباشر</a>
             </div>
-
-            <!-- شات المساعد الذكي -->
             <div id="support-chat-messages" class="flex-1 overflow-y-auto p-2 space-y-2 text-xs border border-white/5 rounded-2xl bg-black/20">
-                <div class="glass p-3 rounded-2xl max-w-[85%]">
-                    أهلاً بك في الدعم الفني لالفا ستور للأزياء 👕! كيف يمكنني مساعدتك في تحديد المقاس، تتبع الشحنة، أو الاستفسارات؟
-                </div>
+                <div class="glass p-3 rounded-2xl max-w-[85%]">أهلاً بك في الدعم الفني لالفا ستور للأزياء 👕! كيف يمكنني مساعدتك؟</div>
             </div>
-
             <div class="pt-3 flex gap-2">
-                <input type="text" id="support-input" placeholder="اكتب استفسارك هنا..." class="flex-1 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-purple-500" onkeypress="if(event.key==='Enter') sendSupportMessage()">
+                <input type="text" id="support-input" placeholder="اكتب استفسارك..." class="flex-1 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none" onkeypress="if(event.key==='Enter') sendSupportMessage()">
                 <button onclick="sendSupportMessage()" class="px-4 py-2.5 rounded-xl bg-purple-600 text-white text-xs font-bold"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
         </div>
@@ -263,14 +301,10 @@
             </div>
             <div id="cart-items-container" class="flex-1 space-y-4 overflow-y-auto mb-4"></div>
             <div id="cart-summary" class="border-t border-white/10 pt-4 space-y-3">
-                <div id="free-shipping-bar" class="w-full bg-white/10 h-2 rounded-full overflow-hidden">
-                    <div id="free-shipping-progress" class="bg-gradient-to-r from-purple-500 to-pink-500 h-full w-0 transition-all"></div>
-                </div>
-                <p id="free-shipping-text" class="text-xs text-purple-300 text-center font-medium"></p>
                 <div class="flex justify-between text-sm text-gray-400"><span>المجموع الفرعي:</span><span id="cart-subtotal">0 ر.س</span></div>
                 <div class="flex justify-between text-sm text-gray-400"><span>الشحن:</span><span id="cart-shipping">30 ر.س</span></div>
                 <div class="flex justify-between text-lg font-bold border-t border-white/10 pt-3"><span>الإجمالي:</span><span id="cart-total" class="text-purple-400">0 ر.س</span></div>
-                <button onclick="openCheckoutModal()" class="w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 font-bold text-white shadow-xl hover:opacity-90 transition mt-2">إتمام الطلب والتوصيل</button>
+                <button onclick="openCheckoutModal()" class="w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 font-bold text-white shadow-xl transition mt-2">إتمام الطلب والتوصيل</button>
             </div>
         </div>
     </div>
@@ -286,7 +320,7 @@
         </div>
     </div>
 
-    <!-- نافذة إتمام الشراء والتوصيل والدفع -->
+    <!-- نافذة إتمام الشراء والدفع -->
     <div id="checkout-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
         <div class="glass max-w-lg w-full rounded-3xl p-8 relative max-h-[90vh] overflow-y-auto">
             <button onclick="closeCheckoutModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-white/5 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
@@ -297,35 +331,29 @@
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs text-gray-400 mb-1">الاسم</label>
-                        <input type="text" id="ship-name" value="بدر علي الملحاوي" required class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-purple-500">
+                        <input type="text" id="ship-name" value="بدر علي الملحاوي" required class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs">
                     </div>
                     <div>
                         <label class="block text-xs text-gray-400 mb-1">رقم الجوال</label>
-                        <input type="tel" id="ship-phone" value="0546867639" required class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-purple-500">
+                        <input type="tel" id="ship-phone" value="0546867639" required class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs">
                     </div>
                 </div>
                 <div>
                     <label class="block text-xs text-gray-400 mb-1">المدينة والحي</label>
-                    <input type="text" id="ship-city" required placeholder="جدة، حي الشاطئ" class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-purple-500">
+                    <input type="text" id="ship-city" required placeholder="جدة، حي الشاطئ" class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs">
                 </div>
                 <div>
-                    <label class="block text-xs text-gray-400 mb-1">عنوان المنزل بالتفصيل</label>
-                    <textarea id="ship-address" required rows="2" placeholder="اسم الشارع، رقم المبنى، الشقة" class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-purple-500"></textarea>
+                    <label class="block text-xs text-gray-400 mb-1">العنوان التفصيلي</label>
+                    <textarea id="ship-address" required rows="2" placeholder="الشارع، المكون، الشقة" class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs"></textarea>
                 </div>
                 <hr class="border-white/10 my-2">
                 <div>
-                    <label class="block text-xs text-gray-400 mb-1">بطاقة الدفع (مدى / فيزا / أبل باي)</label>
-                    <input type="text" required maxlength="19" placeholder="4500 •••• •••• ••••" class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-purple-500">
+                    <label class="block text-xs text-gray-400 mb-1">بطاقة الدفع (مدى / فيزا)</label>
+                    <input type="text" required maxlength="19" placeholder="4500 •••• •••• ••••" class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs">
                 </div>
                 <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs text-gray-400 mb-1">تاريخ الانتهاء</label>
-                        <input type="text" required placeholder="MM/YY" class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-purple-500">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-gray-400 mb-1">CVV</label>
-                        <input type="password" required maxlength="3" placeholder="123" class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-purple-500">
-                    </div>
+                    <div><input type="text" required placeholder="MM/YY" class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs"></div>
+                    <div><input type="password" required maxlength="3" placeholder="CVV" class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs"></div>
                 </div>
                 <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 font-bold text-white shadow-lg text-sm">
                     تأكيد ودفع الطلب (<span id="checkout-modal-total">0</span> ر.س)
@@ -334,14 +362,13 @@
         </div>
     </div>
 
-    <!-- إشعار Toast -->
+    <!-- Toast Notification -->
     <div id="toast" class="fixed bottom-20 right-6 glass px-6 py-3.5 rounded-2xl text-sm font-semibold text-white shadow-2xl translate-y-28 transition-transform duration-300 z-50 flex items-center gap-3 border border-purple-500/30">
         <i class="fa-solid fa-circle-check text-green-400 text-lg"></i>
         <span id="toast-message">تمت العملية بنجاح</span>
     </div>
 
     <script>
-        // قاعدة بيانات المنتجات (ملابس وأزياء فاخرة)
         const products = [
             {
                 id: 1, name: "هودي ألترا أوفرسايز (Alpha Heavy)", category: "hoodies", price: 289, rating: 4.9,
@@ -369,24 +396,27 @@
                     { name: "أسود فاحم", hex: "#1c1c1e", image: "https://images.unsplash.com/photo-1517445312882-bc9910d016b7?w=600&auto=format&fit=crop&q=80" }
                 ],
                 desc: "بنطال كارجو بجيوب متعددة وقصة مريحة تناسب الإطلالات اليومية والرياضية."
-            },
-            {
-                id: 4, name: "جاكيت بومبر الشتوي (Alpha Bomber Jacket)", category: "hoodies", price: 399, rating: 4.9,
-                sizes: ["M", "L", "XL"],
-                colors: [
-                    { name: "أسود ملكي", hex: "#0a0a0a", image: "https://images.unsplash.com/photo-1495105787522-5334e3ffa0ef?w=600&auto=format&fit=crop&q=80" }
-                ],
-                desc: "جاكيت مبطن مقاوم للبرودة والمطر بتصميم أنيق وفاخر."
             }
         ];
 
-        let cart = [];
-        let wishlist = [];
+        // الحفظ التلقائي عبر LocalStorage
+        let cart = JSON.parse(localStorage.getItem('alfa_cart')) || [];
+        let wishlist = JSON.parse(localStorage.getItem('alfa_wishlist')) || [];
+        let savedOrders = JSON.parse(localStorage.getItem('alfa_orders')) || [
+            { id: "ALFA-8492", items: "هودي ألترا أوفرسايز", status: "تم التوصيل", date: "قبل 3 أيام" }
+        ];
 
         window.addEventListener('DOMContentLoaded', () => {
             renderProducts('all');
             updateBadges();
+            renderSavedOrders();
         });
+
+        function saveData() {
+            localStorage.setItem('alfa_cart', JSON.stringify(cart));
+            localStorage.setItem('alfa_wishlist', JSON.stringify(wishlist));
+            localStorage.setItem('alfa_orders', JSON.stringify(savedOrders));
+        }
 
         function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
@@ -412,27 +442,16 @@
                         <i class="fa-${isWishlisted ? 'solid text-pink-500' : 'regular'} fa-heart"></i>
                     </button>
                     <div class="relative w-full h-64 rounded-2xl overflow-hidden mb-4 cursor-pointer" onclick="openProductModal(${product.id})">
-                        <img id="product-img-${product.id}" src="${defaultColor.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <img id="product-img-${product.id}" src="${defaultColor.image}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                     </div>
                     <div>
                         <div class="flex justify-between items-center mb-1">
-                            <span class="text-xs text-purple-400 font-semibold uppercase tracking-wider">${product.category}</span>
+                            <span class="text-xs text-purple-400 font-semibold uppercase">${product.category}</span>
                             <div class="flex items-center gap-1 text-xs text-yellow-400 font-bold"><i class="fa-solid fa-star"></i> ${product.rating}</div>
                         </div>
                         <h3 class="font-bold text-base mb-2 hover:text-purple-300 transition cursor-pointer" onclick="openProductModal(${product.id})">${product.name}</h3>
-                        <p class="text-gray-400 text-xs mb-3 line-clamp-2">${product.desc}</p>
                     </div>
                     <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <div class="flex gap-1">
-                                ${product.sizes.map(s => `<span class="px-2 py-0.5 rounded bg-white/10 text-[10px] text-gray-300 font-bold">${s}</span>`).join('')}
-                            </div>
-                            <div class="flex gap-1.5">
-                                ${product.colors.map((c, idx) => `
-                                    <button onclick="changeProductColor(${product.id}, '${c.image}', this)" title="${c.name}" class="w-4 h-4 rounded-full border ${idx === 0 ? 'border-purple-400 scale-110' : 'border-transparent'}" style="background-color: ${c.hex};"></button>
-                                `).join('')}
-                            </div>
-                        </div>
                         <div class="flex items-center justify-between pt-3 border-t border-white/10">
                             <span class="text-lg font-black text-purple-300">${product.price} <span class="text-xs font-normal text-gray-400">ر.س</span></span>
                             <button onclick="addToCart(${product.id})" class="px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs shadow-lg flex items-center gap-2">
@@ -445,55 +464,23 @@
             });
         }
 
-        function changeProductColor(productId, imageUrl, btnElement) {
-            const imgElement = document.getElementById(`product-img-${productId}`);
-            if (imgElement) imgElement.src = imageUrl;
-            const parent = btnElement.parentElement;
-            parent.querySelectorAll('button').forEach(b => b.classList.remove('border-purple-400', 'scale-110'));
-            btnElement.classList.add('border-purple-400', 'scale-110');
-        }
-
         function filterProducts(category) { renderProducts(category); }
-
-        function openProductModal(id) {
-            const product = products.find(p => p.id === id);
-            if (!product) return;
-            const modal = document.getElementById('product-modal');
-            const content = document.getElementById('modal-content');
-            content.innerHTML = `
-                <div class="relative rounded-2xl overflow-hidden h-80">
-                    <img id="modal-main-img" src="${product.colors[0].image}" class="w-full h-full object-cover">
-                </div>
-                <div class="flex flex-col justify-between">
-                    <div>
-                        <span class="text-xs text-purple-400 uppercase font-semibold">${product.category}</span>
-                        <h2 class="text-2xl font-black mt-1 mb-2">${product.name}</h2>
-                        <p class="text-gray-300 text-xs mb-4">${product.desc}</p>
-                        <div class="mb-4">
-                            <label class="block text-xs text-gray-400 mb-2">المقاسات المتاحة:</label>
-                            <div class="flex gap-2">
-                                ${product.sizes.map(s => `<button class="px-3 py-1 bg-white/10 hover:bg-purple-600 rounded-lg text-xs font-bold transition">${s}</button>`).join('')}
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="text-2xl font-black text-purple-300 mb-4">${product.price} ر.س</div>
-                        <button onclick="addToCart(${product.id}); closeProductModal();" class="w-full py-3 rounded-xl bg-purple-600 font-bold text-white shadow-lg">أضف إلى حقيبة التسوق</button>
-                    </div>
-                </div>
-            `;
-            modal.classList.remove('hidden');
-        }
-
-        function closeProductModal() { document.getElementById('product-modal').classList.add('hidden'); }
 
         function addToCart(id) {
             const product = products.find(p => p.id === id);
             const existing = cart.find(item => item.id === id);
             if (existing) existing.qty++;
             else cart.push({ ...product, qty: 1 });
+            saveData();
             updateBadges();
             showToast(`تم إضافة ${product.name} للسلة`);
+        }
+
+        function addBundleToCart(bundleName, price) {
+            cart.push({ id: Date.now(), name: bundleName, price: price, qty: 1, colors: [{ image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&auto=format&fit=crop&q=80" }] });
+            saveData();
+            updateBadges();
+            showToast(`تم إضافة ${bundleName} لسلتك بنجاح!`);
         }
 
         function toggleWishlist(id) {
@@ -501,6 +488,7 @@
             const index = wishlist.findIndex(item => item.id === id);
             if (index > -1) wishlist.splice(index, 1);
             else wishlist.push(product);
+            saveData();
             renderProducts('all');
             updateBadges();
         }
@@ -533,7 +521,6 @@
                 const div = document.createElement('div');
                 div.className = 'glass p-3 rounded-2xl flex items-center justify-between gap-3';
                 div.innerHTML = `
-                    <img src="${item.colors[0].image}" class="w-14 h-14 object-cover rounded-xl">
                     <div class="flex-1">
                         <h4 class="font-bold text-xs">${item.name}</h4>
                         <span class="text-purple-400 text-xs">${item.price} ر.س</span>
@@ -560,6 +547,7 @@
                 item.qty += change;
                 if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
             }
+            saveData();
             updateBadges();
         }
 
@@ -574,18 +562,65 @@
                 const div = document.createElement('div');
                 div.className = 'glass p-3 rounded-2xl flex items-center justify-between gap-3';
                 div.innerHTML = `
-                    <img src="${item.colors[0].image}" class="w-14 h-14 object-cover rounded-xl">
-                    <div class="flex-1">
-                        <h4 class="font-bold text-xs">${item.name}</h4>
-                        <span class="text-purple-400 text-xs">${item.price} ر.س</span>
-                    </div>
+                    <div class="flex-1"><h4 class="font-bold text-xs">${item.name}</h4><span class="text-purple-400 text-xs">${item.price} ر.س</span></div>
                     <button onclick="toggleWishlist(${item.id})" class="text-pink-500 hover:text-white p-2"><i class="fa-solid fa-trash"></i></button>
                 `;
                 container.appendChild(div);
             });
         }
 
-        // تحكم النوافذ المنبثقة Modals
+        // حساب المقاس المناسب
+        function calculateBestSize() {
+            const h = parseInt(document.getElementById('fit-height').value);
+            const w = parseInt(document.getElementById('fit-weight').value);
+            const res = document.getElementById('size-result');
+
+            if (!h || !w) { showToast("يرجى إدخال الطول والوزن"); return; }
+
+            let bestSize = "M";
+            if (w < 60) bestSize = "S";
+            else if (w >= 60 && w <= 75) bestSize = "M";
+            else if (w > 75 && w <= 88) bestSize = "L";
+            else bestSize = "XL";
+
+            res.innerText = `✨ المقاس المقترح لك هو: (${bestSize}) بناءً على قياساتك!`;
+            res.classList.remove('hidden');
+        }
+
+        // تتبع حالة الشحنة
+        function trackOrder() {
+            const code = document.getElementById('track-order-input').value.trim();
+            const res = document.getElementById('tracking-status-result');
+
+            if (!code) { showToast("أدخل رقم الشحنة"); return; }
+
+            res.innerHTML = `
+                <div class="flex justify-between font-bold"><span>حالة الشحنة:</span><span class="text-green-400">في الطريق إليك 🚚</span></div>
+                <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden mt-1">
+                    <div class="bg-gradient-to-r from-purple-500 to-green-400 h-full w-3/4"></div>
+                </div>
+                <p class="text-[10px] text-gray-400">الموقع الحالي: مركز التوزيع بجدة • التوصيل المتوقع غداً</p>
+            `;
+            res.classList.remove('hidden');
+        }
+
+        function renderSavedOrders() {
+            const container = document.getElementById('orders-history-container');
+            container.innerHTML = '';
+            savedOrders.forEach(o => {
+                container.innerHTML += `
+                    <div class="glass p-3 rounded-xl flex justify-between items-center">
+                        <div>
+                            <div class="font-bold">${o.items}</div>
+                            <div class="text-[10px] text-gray-400">رقم الشحنة: ${o.id} • ${o.date}</div>
+                        </div>
+                        <span class="px-2 py-1 bg-yellow-500/20 text-yellow-300 rounded-lg font-bold">${o.status}</span>
+                    </div>
+                `;
+            });
+        }
+
+        // التحكم بالنوافذ
         function toggleCartModal() { document.getElementById('cart-modal').classList.toggle('hidden'); }
         function toggleWishlistModal() { document.getElementById('wishlist-modal').classList.toggle('hidden'); }
         function openProfileModal() { document.getElementById('profile-modal').classList.remove('hidden'); }
@@ -594,6 +629,8 @@
         function closeSettingsModal() { document.getElementById('settings-modal').classList.add('hidden'); }
         function openSupportModal() { document.getElementById('support-modal').classList.remove('hidden'); }
         function closeSupportModal() { document.getElementById('support-modal').classList.add('hidden'); }
+        function openSizeGuideModal() { document.getElementById('sizeguide-modal').classList.remove('hidden'); }
+        function closeSizeGuideModal() { document.getElementById('sizeguide-modal').classList.add('hidden'); }
 
         function openCheckoutModal() {
             if (cart.length === 0) { showToast("حقيبة التسوق فارغة!"); return; }
@@ -602,75 +639,31 @@
         }
         function closeCheckoutModal() { document.getElementById('checkout-modal').classList.add('hidden'); }
 
-        // تحديث الملف الشخصي والصورة والاسم
-        function updateProfileInfo(e) {
-            e.preventDefault();
-            const newName = document.getElementById('edit-user-name').value;
-            const newAvatar = document.getElementById('edit-user-avatar-url').value;
-
-            if (newName) document.getElementById('user-display-name').innerText = newName;
-            if (newAvatar) document.getElementById('user-avatar').src = newAvatar;
-
-            showToast("تم تحديث معلوماتك الشخصية بنجاح");
-        }
-
-        function changeAvatar() {
-            const url = prompt("أدخل رابط صورتك الشخصية الجديدة:");
-            if (url) {
-                document.getElementById('user-avatar').src = url;
-                showToast("تم تحديث الصورة الشخصية");
-            }
-        }
-
-        function logoutUser() {
-            closeSettingsModal();
-            showToast("تم تسجيل الخروج بنجاح");
-        }
-
-        function changeLanguage(lang) {
-            showToast(lang === 'ar' ? "تم ضبط اللغة إلى العربية" : "Switched to English");
-        }
-
-        // معالجة الدفع وتأكيد طلب الملابس
         function processRealPayment(e) {
             e.preventDefault();
-            const name = document.getElementById('ship-name').value;
-            const phone = document.getElementById('ship-phone').value;
-            const city = document.getElementById('ship-city').value;
-
-            // إضافة الطلب إلى سجل مشترياتي
-            const ordersContainer = document.getElementById('orders-history-container');
-            const newOrderHtml = `
-                <div class="glass p-3 rounded-xl flex justify-between items-center">
-                    <div>
-                        <div class="font-bold">طلب ملابس جديد (${cart.length} قطع)</div>
-                        <div class="text-[10px] text-gray-400">توصيل إلى: ${city} • الآن</div>
-                    </div>
-                    <span class="px-2 py-1 bg-yellow-500/20 text-yellow-300 rounded-lg font-bold">قيد التجهيز</span>
-                </div>
-            `;
-            ordersContainer.innerHTML = newOrderHtml + ordersContainer.innerHTML;
+            const newId = "ALFA-" + Math.floor(1000 + Math.random() * 9000);
+            savedOrders.unshift({ id: newId, items: `طلب ملابس جديد (${cart.length} قطع)`, status: "قيد التجهيز", date: "الآن" });
+            
+            cart = [];
+            saveData();
+            updateBadges();
+            renderSavedOrders();
 
             closeCheckoutModal();
-            cart = [];
-            updateBadges();
-            showToast(`✅ تم استلام طلبك لـ ${name} (${phone}) وجاري التجهيز للتوصيل!`);
+            showToast(`✅ تم تأكيد الطلب بنجاح! رقم شحنتك هو (${newId}) ويمكنك تتبعه من صفحتك.`);
         }
 
-        // المساعد الذكي
         function sendSupportMessage() {
             const input = document.getElementById('support-input');
             const text = input.value.trim();
             if (!text) return;
-
             const chatMessages = document.getElementById('support-chat-messages');
             chatMessages.innerHTML += `<div class="glass p-3 rounded-2xl max-w-[85%] mr-auto bg-purple-600/30">${text}</div>`;
             input.value = '';
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
             setTimeout(() => {
-                let reply = "أهلاً بك! نحن متجر الفا ستور للملابس والأزياء. يسعدنا الاتصال بنا مباشرة عبر الرقم 0546867639 لأي استفسار أو تتبع.";
-                chatMessages.innerHTML += `<div class="glass p-3 rounded-2xl max-w-[85%]">${reply}</div>`;
+                chatMessages.innerHTML += `<div class="glass p-3 rounded-2xl max-w-[85%]">أهلاً بك! يمكنك متابعة وتتبع شحناتك أو التواصل المباشر معنا على 0546867639 📞</div>`;
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }, 600);
         }
