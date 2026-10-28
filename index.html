@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الفا ستور | ALPHA STORE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            base: '#4C1D95',
+                            vivid: '#7C3AED',
+                            bright: '#8B5CF6',
+                            glow: '#A78BFA',
+                            bgDark: '#0F0A1E',
+                            bgLight: '#1E1650'
+                        }
+                    },
+                    fontFamily: {
+                        tajawal: ['Tajawal', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #0F0A1E 0%, #1E1650 100%);
+            background-attachment: fixed;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.10);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid rgba(255, 255, 255, 0.20);
+            border-radius: 32px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+        .glass-bottom-tag {
+            background: rgba(15, 10, 30, 0.70);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border-top: 1px solid rgba(255, 255, 255, 0.20);
+            border-radius: 0 0 32px 32px;
+        }
+        .glass-input {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(28px);
+            border: 1px solid rgba(255, 255, 255, 0.20);
+            color: white;
+        }
+        .glass-input:focus {
+            border-color: #8B5CF6;
+            outline: none;
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0F0A1E; }
+        ::-webkit-scrollbar-thumb { background: #7C3AED; border-radius: 10px; }
+        .glow-effect { box-shadow: 0 0 25px rgba(124, 58, 237, 0.5); }
+    </style>
+</head>
+<body class="pb-28">
+
+    <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 transform -translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-3 border-brand-glow/40 shadow-2xl">
+            <i id="toast-icon" class="fa-solid fa-circle-check text-brand-glow text-lg"></i>
+            <span id="toast-message" class="text-sm font-medium">تمت العملية بنجاح</span>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 p-4">
+        <div class="glass-panel px-6 py-4 max-w-7xl mx-auto flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-base via-brand-vivid to-brand-glow flex items-center justify-center font-black text-xl tracking-wider shadow-lg">
+                    Α
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg tracking-wide text-white">الفا ستور <span class="text-brand-glow font-normal text-xs">ALPHA</span></h1>
+                </div>
+            </div>
+
+            <div class="hidden md:flex items-center flex-1 max-w-md mx-4 relative">
+                <input type="text" id="desktop-search" oninput="handleSearch(this.value)" placeholder="ابحث في الفا ستور..." class="w-full glass-input rounded-full py-2.5 px-5 pr-11 text-sm">
+                <i class="fa-solid fa-magnifying-glass absolute right-4 text-white/50"></i>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <button onclick="toggleModal('wishlist-modal')" class="relative w-11 h-11 rounded-full glass-panel flex items-center justify-center hover:bg-white/20 transition">
+                    <i class="fa-regular fa-heart text-lg"></i>
+                    <span id="wishlist-count" class="absolute -top-1 -right-1 bg-brand-vivid text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">0</span>
+                </button>
+
+                <button onclick="toggleModal('cart-modal')" class="relative w-11 h-11 rounded-full bg-gradient-to-r from-brand-vivid to-brand-bright flex items-center justify-center hover:opacity-90 transition glow-effect">
+                    <i class="fa-solid fa-bag-shopping text-lg"></i>
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-white text-brand-base text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">0</span>
+                </button>
+
+                <button onclick="toggleAuthModal()" id="user-btn" class="w-11 h-11 rounded-full glass-panel flex items-center justify-center hover:bg-white/20 transition">
+                    <i class="fa-regular fa-user text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="md:hidden mt-3 max-w-7xl mx-auto">
+            <div class="relative">
+                <input type="text" id="mobile-search" oninput="handleSearch(this.value)" placeholder="ابحث عن منتجات الفا..." class="w-full glass-input rounded-full py-2.5 px-5 pr-11 text-sm">
+                <i class="fa-solid fa-magnifying-glass absolute right-4 top-3 text-white/50"></i>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 mt-4">
+        <div class="glass-panel p-8 mb-8 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="absolute -left-20 -bottom-20 w-64 h-64 bg-brand-vivid/30 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="space-y-3 z-10 text-center md:text-right">
+                <span class="px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs font-semibold text-brand-glow inline-block">تشكيلة الفا الحصرية 2026</span>
+                <h2 class="text-3xl md:text-5xl font-extrabold leading-tight">القمة في الأناقة <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-glow to-brand-bright">متجر الفا ستور</span></h2>
+                <p class="text-white/70 text-sm max-w-md">تسوق أحدث اتجاهات الموضة والأغراض الفاخرة المصممة خصيصاً لأصحاب الذوق الأرفع.</p>
+            </div>
+            <button onclick="scrollToProducts()" class="z-10 px-8 py-4 rounded-full bg-gradient-to-r from-brand-vivid to-brand-bright text-white font-bold shadow-lg hover:shadow-brand-vivid/50 transition duration-300">
+                استكشف المنتجات
+            </button>
+        </div>
+
+        <div class="flex items-center gap-3 overflow-x-auto pb-4 mb-6 no-scrollbar">
+            <button onclick="filterCategory('all', this)" class="cat-btn px-6 py-2.5 rounded-full glass-panel text-sm font-medium whitespace-nowrap hover:bg-white/20 transition border-brand-glow/40 bg-brand-vivid/40">الكل</button>
+            <button onclick="filterCategory('apparel', this)" class="cat-btn px-6 py-2.5 rounded-full glass-panel text-sm font-medium whitespace-nowrap hover:bg-white/20 transition">الملابس الفاخرة</button>
+            <button onclick="filterCategory('shoes', this)" class="cat-btn px-6 py-2.5 rounded-full glass-panel text-sm font-medium whitespace-nowrap hover:bg-white/20 transition">الأحذية</button>
+            <button onclick="filterCategory('accessories', this)" class="cat-btn px-6 py-2.5 rounded-full glass-panel text-sm font-medium whitespace-nowrap hover:bg-white/20 transition">الإكسسوارات والعطور</button>
+        </div>
+
+        <div id="products-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+        </div>
+    </main>
+
+    <!-- Modal تفاصيل المنتج -->
+    <div id="product-detail-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-end md:items-center justify-center hidden opacity-0 transition-opacity duration-300">
+        <div class="glass-panel w-full md:max-w-2xl max-h-[90vh] overflow-y-auto p-6 rounded-b-none md:rounded-[32px] relative border-brand-glow/30">
+            <button onclick="toggleModal('product-detail-modal')" class="absolute top-4 left-4 w-9 h-9 rounded-full glass-panel flex items-center justify-center text-white/70 hover:text-white">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="modal-product-content" class="space-y-6"></div>
+        </div>
+    </div>
+
+    <!-- Modal السلة -->
+    <div id="cart-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex justify-end hidden opacity-0 transition-opacity duration-300">
+        <div class="glass-panel w-full max-w-md h-full rounded-none p-6 flex flex-col justify-between border-l border-white/20">
+            <div>
+                <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
+                    <h3 class="text-xl font-bold flex items-center gap-2">
+                        <i class="fa-solid fa-bag-shopping text-brand-glow"></i> سلة الفا ستور
+                    </h3>
+                    <button onclick="toggleModal('cart-modal')" class="w-9 h-9 rounded-full glass-panel flex items-center justify-center text-white/70 hover:text-white">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <div class="mb-4 bg-white/5 p-3 rounded-2xl border border-white/10">
+                    <div class="flex justify-between text-xs mb-1">
+                        <span id="free-shipping-text">أضف منتجات للحصول على الشحن المجاني</span>
+                        <span id="free-shipping-val">0 / 500 ر.س</span>
+                    </div>
+                    <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden">
+                        <div id="free-shipping-bar" class="bg-gradient-to-r from-brand-vivid to-brand-glow h-full w-0 transition-all duration-500"></div>
+                    </div>
+                </div>
+
+                <div id="cart-items" class="space-y-3 max-h-[45vh] overflow-y-auto pr-1"></div>
+            </div>
+
+            <div class="space-y-3 border-t border-white/10 pt-4">
+                <div class="space-y-1.5 text-sm">
+                    <div class="flex justify-between text-white/70">
+                        <span>المجموع الفرعي:</span>
+                        <span id="cart-subtotal">0 ر.س</span>
+                    </div>
+                    <div class="flex justify-between text-white/70">
+                        <span>ضريبة القيمة المضافة (15%):</span>
+                        <span id="cart-tax">0 ر.س</span>
+                    </div>
+                    <div class="flex justify-between text-white/70">
+                        <span>الشحن:</span>
+                        <span id="cart-shipping">0 ر.س</span>
+                    </div>
+                    <div id="discount-row" class="flex justify-between text-emerald-400 hidden">
+                        <span>الخصم (كوبون ALPHA10):</span>
+                        <span id="cart-discount">-0 ر.س</span>
+                    </div>
+                    <div class="flex justify-between text-base font-bold text-white pt-2 border-t border-white/10">
+                        <span>الإجمالي النهائي:</span>
+                        <span id="cart-total" class="text-brand-glow text-xl">0 ر.س</span>
+                    </div>
+                </div>
+
+                <div class="flex gap-2">
+                    <input type="text" id="coupon-code" placeholder="كود الخصم (جرّب ALPHA10)" class="glass-input flex-1 rounded-full px-4 py-2 text-xs">
+                    <button onclick="applyCoupon()" class="px-5 py-2 rounded-full bg-white/10 hover:bg-white/20 text-xs font-bold border border-white/20">تطبيق</button>
+                </div>
+
+                <button onclick="checkout()" class="w-full py-3.5 rounded-full bg-gradient-to-r from-brand-vivid to-brand-bright font-bold text-center hover:opacity-90 transition glow-effect">
+                    إتمام الشراء الآن
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal المستخدم -->
+    <div id="auth-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+        <div class="glass-panel w-full max-w-md p-6 relative border-brand-glow/30">
+            <button onclick="toggleModal('auth-modal')" class="absolute top-4 left-4 w-9 h-9 rounded-full glass-panel flex items-center justify-center text-white/70 hover:text-white">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="auth-content"></div>
+        </div>
+    </div>
+
+    <!-- Modal المفضلة -->
+    <div id="wishlist-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex justify-end hidden opacity-0 transition-opacity duration-300">
+        <div class="glass-panel w-full max-w-md h-full rounded-none p-6 flex flex-col justify-between border-l border-white/20">
+            <div>
+                <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
+                    <h3 class="text-xl font-bold flex items-center gap-2">
+                        <i class="fa-solid fa-heart text-pink-500"></i> المفضلة - الفا ستور
+                    </h3>
+                    <button onclick="toggleModal('wishlist-modal')" class="w-9 h-9 rounded-full glass-panel flex items-center justify-center text-white/70 hover:text-white">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div id="wishlist-items" class="space-y-3 max-h-[75vh] overflow-y-auto"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Nav Bar -->
+    <div class="md:hidden fixed bottom-4 left-4 right-4 z-40">
+        <div class="glass-panel py-3 px-6 flex items-center justify-around border-white/20 shadow-2xl">
+            <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="flex flex-col items-center gap-1 text-brand-glow">
+                <i class="fa-solid fa-house text-lg"></i>
+                <span class="text-[10px]">الرئيسية</span>
+            </button>
+            <button onclick="toggleModal('wishlist-modal')" class="flex flex-col items-center gap-1 text-white/70">
+                <i class="fa-regular fa-heart text-lg"></i>
+                <span class="text-[10px]">المفضلة</span>
+            </button>
+            <button onclick="toggleModal('cart-modal')" class="flex flex-col items-center gap-1 text-white/70 relative">
+                <i class="fa-solid fa-bag-shopping text-lg"></i>
+                <span class="text-[10px]">السلة</span>
+            </button>
+            <button onclick="toggleAuthModal()" class="flex flex-col items-center gap-1 text-white/70">
+                <i class="fa-regular fa-user text-lg"></i>
+                <span class="text-[10px]">حسابي</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const products = [
+            {
+                id: 1,
+                name: "هودي الفا الفاخر",
+                price: 490,
+                category: "apparel",
+                rating: 5.0,
+                reviewsCount: 32,
+                image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500&auto=format&fit=crop&q=80",
+                description: "هودي فاخر من تشكيلة الفا ستور مصنوع من القطن العضوي 100% بتطريز ملكي متقن.",
+                sizes: ["S", "M", "L", "XL"],
+                colors: ["#0F0A1E", "#4C1D95", "#FFFFFF"],
+                reviews: [
+                    { user: "عبدالله العتيبي", rating: 5, comment: "خامة ممتازة وتصميم يليق باسم الفا ستور!" }
+                ]
+            },
+            {
+                id: 2,
+                name: "سترة المخمل الملكية",
+                price: 720,
+                category: "apparel",
+                rating: 4.9,
+                reviewsCount: 19,
+                image: "https://images.unsplash.com/photo-1543076447-215ad9ba6923?w=500&auto=format&fit=crop&q=80",
+                description: "سترة مخملية بقلنسوة وتفاصيل زجاجية فاخرة تعكس هويتك الاستثنائية.",
+                sizes: ["M", "L", "XL"],
+                colors: ["#1E1650", "#4C1D95"],
+                reviews: [
+                    { user: "فيصل الشمري", rating: 5, comment: "قصة السترة والجودة شيء فوق الخيال." }
+                ]
+            },
+            {
+                id: 3,
+                name: "حذاء الفا ستريت 2026",
+                price: 890,
+                category: "shoes",
+                rating: 5.0,
+                reviewsCount: 41,
+                image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&auto=format&fit=crop&q=80",
+                description: "حذاء رياضي أنيق بجلد طبيعي وتصميم زجاجي عصري للغاية مريح طوال اليوم.",
+                sizes: ["40", "41", "42", "43", "44"],
+                colors: ["#7C3AED", "#FFFFFF", "#000000"],
+                reviews: []
+            },
+            {
+                id: 4,
+                name: "عطر ALPHA Imperial 100ml",
+                price: 580,
+                category: "accessories",
+                rating: 4.9,
+                reviewsCount: 50,
+                image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=500&auto=format&fit=crop&q=80",
+                description: "المزيج العطري الخشب والمجد من الفا ستور بثبات يدوم لأكثر من 24 ساعة.",
+                sizes: ["100ml"],
+                colors: ["#4C1D95"],
+                reviews: []
+            }
+        ];
+
+        let cart = JSON.parse(localStorage.getItem('alpha_cart')) || [];
+        let wishlist = JSON.parse(localStorage.getItem('alpha_wishlist')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('alpha_user')) || null;
+        let isCouponApplied = false;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts(products);
+            updateCartUI();
+            updateWishlistUI();
+            updateUserUI();
+        });
+
+        function renderProducts(items) {
+            const grid = document.getElementById('products-grid');
+            if (items.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-12 text-white/50">لا توجد منتجات مطابقة في الفا ستور.</div>`;
+                return;
+            }
+
+            grid.innerHTML = items.map(product => {
+                const isWishlist = wishlist.includes(product.id);
+                return `
+                    <div class="glass-panel overflow-hidden group flex flex-col justify-between hover:border-brand-glow/50 transition duration-300 relative">
+                        <button onclick="toggleWishlist(${product.id})" class="absolute top-3 left-3 z-20 w-8 h-8 rounded-full glass-panel flex items-center justify-center text-xs transition ${isWishlist ? 'text-pink-500 bg-white/20' : 'text-white/70'}">
+                            <i class="fa-${isWishlist ? 'solid' : 'regular'} fa-heart"></i>
+                        </button>
+
+                        <div class="relative p-4 flex items-center justify-center h-48 md:h-56 cursor-pointer" onclick="openProductDetail(${product.id})">
+                            <img src="${product.image}" alt="${product.name}" class="max-h-full object-contain group-hover:scale-105 transition duration-500 drop-shadow-2xl">
+                        </div>
+
+                        <div class="glass-bottom-tag p-3.5 space-y-2">
+                            <div class="flex items-center justify-between text-[11px] text-white/70">
+                                <span><i class="fa-solid fa-star text-amber-400"></i> ${product.rating}</span>
+                                <span>الفا ستور</span>
+                            </div>
+                            <h3 class="font-bold text-sm truncate text-white">${product.name}</h3>
+                            <div class="flex items-center justify-between pt-1">
+                                <span class="font-extrabold text-brand-glow text-sm">${product.price} <span class="text-[10px] font-normal">ر.س</span></span>
+                                <button onclick="openProductDetail(${product.id})" class="px-3 py-1.5 rounded-full bg-brand-vivid/80 hover:bg-brand-vivid text-white text-xs font-bold transition">
+                                    تخصيص
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openProductDetail(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            const content = document.getElementById('modal-product-content');
+            content.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                    <div class="p-4 glass-panel rounded-2xl flex items-center justify-center">
+                        <img src="${product.image}" class="max-h-64 object-contain drop-shadow-2xl">
+                    </div>
+                    <div class="space-y-4">
+                        <h2 class="text-2xl font-bold">${product.name}</h2>
+                        <p class="text-xs text-white/70 leading-relaxed">${product.description}</p>
+                        <div class="text-xl font-extrabold text-brand-glow">${product.price} ر.س</div>
+
+                        <div>
+                            <label class="block text-xs font-bold mb-2">اختر المقاس:</label>
+                            <div class="flex gap-2">
+                                ${product.sizes.map((s, idx) => `
+                                    <button onclick="selectSize(this)" class="size-btn px-3.5 py-1.5 rounded-full glass-panel text-xs ${idx === 0 ? 'bg-brand-vivid border-brand-glow' : ''}">${s}</button>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold mb-2">اختر اللون:</label>
+                            <div class="flex gap-3">
+                                ${product.colors.map((c, idx) => `
+                                    <button onclick="selectColor(this)" data-color="${c}" class="color-btn w-7 h-7 rounded-full border-2 ${idx === 0 ? 'border-brand-glow scale-110' : 'border-transparent'}" style="background-color: ${c}"></button>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <button onclick="addToCartFromModal(${product.id})" class="w-full py-3 rounded-full bg-gradient-to-r from-brand-vivid to-brand-bright font-bold text-sm shadow-lg hover:opacity-90 transition">
+                            إضافة للسلة بالمواصفات
+                        </button>
+                    </div>
+                </div>
+
+                <div class="border-t border-white/10 pt-4 space-y-4">
+                    <h3 class="font-bold text-sm">تقييمات مجتمع الفا ستور (${product.reviews.length})</h3>
+                    <div class="space-y-2 max-h-40 overflow-y-auto pr-1">
+                        ${product.reviews.length > 0 ? product.reviews.map(r => `
+                            <div class="p-3 rounded-2xl bg-white/5 border border-white/10 text-xs space-y-1">
+                                <div class="flex justify-between font-bold">
+                                    <span>${r.user}</span>
+                                    <span class="text-amber-400">★ ${r.rating}</span>
+                                </div>
+                                <p class="text-white/70">${r.comment}</p>
+                            </div>
+                        `).join('') : '<p class="text-xs text-white/40">لا توجد تعليقات بعد. كن أول من يقيّم في الفا ستور!</p>'}
+                    </div>
+
+                    <div class="space-y-2">
+                        <input type="text" id="new-comment-text" placeholder="اكتب تعليقك..." class="w-full glass-input rounded-full px-4 py-2 text-xs">
+                        <button onclick="addReview(${product.id})" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-xs font-bold border border-white/20">إضافة تعليق</button>
+                    </div>
+                </div>
+            `;
+            toggleModal('product-detail-modal');
+        }
+
+        function selectSize(btn) {
+            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('bg-brand-vivid', 'border-brand-glow'));
+            btn.classList.add('bg-brand-vivid', 'border-brand-glow');
+        }
+        function selectColor(btn) {
+            document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('border-brand-glow', 'scale-110'));
+            btn.classList.add('border-brand-glow', 'scale-110');
+        }
+
+        function addToCartFromModal(productId) {
+            const product = products.find(p => p.id === productId);
+            const activeSize = document.querySelector('.size-btn.bg-brand-vivid')?.innerText || product.sizes[0];
+            const activeColor = document.querySelector('.color-btn.border-brand-glow')?.dataset.color || product.colors[0];
+
+            const cartKey = `${productId}-${activeSize}-${activeColor}`;
+            const existingItem = cart.find(item => item.key === cartKey);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    key: cartKey,
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    size: activeSize,
+                    color: activeColor,
+                    quantity: 1
+                });
+            }
+
+            saveCart();
+            toggleModal('product-detail-modal');
+            showToast(`تمت إضافة ${product.name} للسلة`);
+        }
+
+        function updateQuantity(key, delta) {
+            const item = cart.find(i => i.key === key);
+            if (!item) return;
+            item.quantity += delta;
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => i.key !== key);
+            }
+            saveCart();
+        }
+
+        function saveCart() {
+            localStorage.setItem('alpha_cart', JSON.stringify(cart));
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cartContainer = document.getElementById('cart-items');
+            const cartCount = document.getElementById('cart-count');
+            const totalItems = cart.reduce((acc, i) => acc + i.quantity, 0);
+            cartCount.innerText = totalItems;
+
+            if (cart.length === 0) {
+                cartContainer.innerHTML = `<div class="text-center py-8 text-white/50 text-xs">سلتك فارغة في الفا ستور.</div>`;
+            } else {
+                cartContainer.innerHTML = cart.map(item => `
+                    <div class="p-3 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between gap-3 text-xs">
+                        <img src="${item.image}" class="w-12 h-12 object-contain rounded-lg">
+                        <div class="flex-1">
+                            <h4 class="font-bold truncate">${item.name}</h4>
+                            <div class="text-white/50 text-[10px]">المقاس: ${item.size}</div>
+                            <div class="text-brand-glow font-bold mt-1">${item.price} ر.س</div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="updateQuantity('${item.key}', -1)" class="w-6 h-6 rounded-full glass-panel flex items-center justify-center">-</button>
+                            <span class="font-bold">${item.quantity}</span>
+                            <button onclick="updateQuantity('${item.key}', 1)" class="w-6 h-6 rounded-full glass-panel flex items-center justify-center">+</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            const subtotal = cart.reduce((acc, i) => acc + (i.price * i.quantity), 0);
+            const tax = subtotal * 0.15;
+            const discount = isCouponApplied ? subtotal * 0.10 : 0;
+            const shipping = (subtotal >= 500 || subtotal === 0) ? 0 : 35;
+            const total = subtotal + tax + shipping - discount;
+
+            document.getElementById('cart-subtotal').innerText = `${subtotal.toFixed(0)} ر.س`;
+            document.getElementById('cart-tax').innerText = `${tax.toFixed(0)} ر.س`;
+            document.getElementById('cart-shipping').innerText = shipping === 0 ? 'مجاني' : `${shipping} ر.س`;
+            document.getElementById('cart-total').innerText = `${total.toFixed(0)} ر.س`;
+
+            if (isCouponApplied) {
+                document.getElementById('discount-row').classList.remove('hidden');
+                document.getElementById('cart-discount').innerText = `-${discount.toFixed(0)} ر.س`;
+            }
+
+            const freeShippingLimit = 500;
+            const progress = Math.min((subtotal / freeShippingLimit) * 100, 100);
+            document.getElementById('free-shipping-bar').style.width = `${progress}%`;
+            document.getElementById('free-shipping-val').innerText = `${subtotal} / ${freeShippingLimit} ر.س`;
+            if (subtotal >= freeShippingLimit) {
+                document.getElementById('free-shipping-text').innerText = 'حصلت على شحن مجاني من الفا ستور!';
+            } else {
+                document.getElementById('free-shipping-text').innerText = `متبقي ${freeShippingLimit - subtotal} ر.س للشحن المجاني`;
+            }
+        }
+
+        function applyCoupon() {
+            const code = document.getElementById('coupon-code').value.trim();
+            if (code.toUpperCase() === 'ALPHA10') {
+                isCouponApplied = true;
+                updateCartUI();
+                showToast('تم تطبيق كود خصم الفا ستور (10%)');
+            } else {
+                showToast('كود الخصم غير صحيح (جرّب ALPHA10)');
+            }
+        }
+
+        function toggleWishlist(id) {
+            if (wishlist.includes(id)) {
+                wishlist = wishlist.filter(i => i !== id);
+                showToast('تم الحذف من المفضلة');
+            } else {
+                wishlist.push(id);
+                showToast('تمت الإضافة لمفضلة الفا ستور ❤️');
+            }
+            localStorage.setItem('alpha_wishlist', JSON.stringify(wishlist));
+            updateWishlistUI();
+            renderProducts(products);
+        }
+
+        function updateWishlistUI() {
+            document.getElementById('wishlist-count').innerText = wishlist.length;
+            const container = document.getElementById('wishlist-items');
+            const items = products.filter(p => wishlist.includes(p.id));
+
+            if (items.length === 0) {
+                container.innerHTML = `<div class="text-center py-8 text-white/50 text-xs">لا توجد منتجات بالمفضلة.</div>`;
+            } else {
+                container.innerHTML = items.map(p => `
+                    <div class="p-3 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between gap-3 text-xs">
+                        <img src="${p.image}" class="w-12 h-12 object-contain rounded-lg">
+                        <div class="flex-1">
+                            <h4 class="font-bold truncate">${p.name}</h4>
+                            <div class="text-brand-glow font-bold">${p.price} ر.س</div>
+                        </div>
+                        <button onclick="toggleWishlist(${p.id})" class="text-pink-500 hover:text-white text-xs">حذف</button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                showToast('سلتك فارغة!');
+                return;
+            }
+            if (!currentUser) {
+                showToast('سجل دخولك أولاً لإتمام طلب الفا ستور');
+                toggleModal('cart-modal');
+                toggleAuthModal();
+                return;
+            }
+            showToast('تم إتمام الطلب بنجاح! شقراً لتسوقك من الفا ستور');
+            cart = [];
+            saveCart();
+            toggleModal('cart-modal');
+        }
+
+        function addReview(productId) {
+            const input = document.getElementById('new-comment-text');
+            if (!input.value.trim()) return;
+            const product = products.find(p => p.id === productId);
+            product.reviews.push({
+                user: currentUser ? currentUser.name : "عميل الفا",
+                rating: 5,
+                comment: input.value.trim()
+            });
+            input.value = '';
+            openProductDetail(productId);
+            showToast('شكراً لتفكيرك ومشاركتك التقييم!');
+        }
+
+        function toggleAuthModal() {
+            const content = document.getElementById('auth-content');
+            if (currentUser) {
+                content.innerHTML = `
+                    <div class="text-center space-y-4">
+                        <div class="w-16 h-16 rounded-full bg-brand-vivid mx-auto flex items-center justify-center text-2xl font-bold">
+                            ${currentUser.name[0]}
+                        </div>
+                        <h3 class="text-lg font-bold">مرحباً بك، ${currentUser.name}</h3>
+                        <p class="text-xs text-white/60">${currentUser.email}</p>
+                        <button onclick="logout()" class="w-full py-2.5 rounded-full bg-red-500/20 text-red-300 border border-red-500/30 text-xs font-bold">تسجيل الخروج</button>
+                    </div>
+                `;
+            } else {
+                content.innerHTML = `
+                    <div class="space-y-4">
+                        <h3 class="text-lg font-bold text-center">دخول / حساب جديد - الفا ستور</h3>
+                        <input type="text" id="auth-name" placeholder="الاسم الكامل" class="w-full glass-input rounded-full px-4 py-2.5 text-xs">
+                        <input type="email" id="auth-email" placeholder="البريد الإلكتروني" class="w-full glass-input rounded-full px-4 py-2.5 text-xs">
+                        <button onclick="login()" class="w-full py-3 rounded-full bg-gradient-to-r from-brand-vivid to-brand-bright font-bold text-xs">دخول</button>
+                    </div>
+                `;
+            }
+            toggleModal('auth-modal');
+        }
+
+        function login() {
+            const name = document.getElementById('auth-name').value.trim();
+            const email = document.getElementById('auth-email').value.trim();
+            if (!name || !email) {
+                showToast('يرجى ملء جميع الحقول');
+                return;
+            }
+            currentUser = { name, email };
+            localStorage.setItem('alpha_user', JSON.stringify(currentUser));
+            updateUserUI();
+            toggleModal('auth-modal');
+            showToast(`أهلاً بك في الفا ستور يا ${name}`);
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('alpha_user');
+            updateUserUI();
+            toggleModal('auth-modal');
+            showToast('تم تسجيل الخروج');
+        }
+
+        function updateUserUI() {
+            const userBtn = document.getElementById('user-btn');
+            if (currentUser) {
+                userBtn.classList.add('border-brand-glow', 'text-brand-glow');
+            } else {
+                userBtn.classList.remove('border-brand-glow', 'text-brand-glow');
+            }
+        }
+
+        function handleSearch(query) {
+            const filtered = products.filter(p => p.name.includes(query) || p.description.includes(query));
+            renderProducts(filtered);
+        }
+
+        function filterCategory(cat, btn) {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('bg-brand-vivid/40', 'border-brand-glow/40'));
+            btn.classList.add('bg-brand-vivid/40', 'border-brand-glow/40');
+            if (cat === 'all') {
+                renderProducts(products);
+            } else {
+                renderProducts(products.filter(p => p.category === cat));
+            }
+        }
+
+        function scrollToProducts() {
+            document.getElementById('products-grid').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleModal(id) {
+            const modal = document.getElementById(id);
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                setTimeout(() => modal.classList.remove('opacity-0'), 10);
+            } else {
+                modal.classList.add('opacity-0');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = message;
+            toast.classList.remove('-translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('-translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
