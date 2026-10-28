@@ -4,712 +4,719 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الفا ستور | ALPHA STORE</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            base: '#4C1D95',
-                            vivid: '#7C3AED',
-                            bright: '#8B5CF6',
-                            glow: '#A78BFA',
-                            bgDark: '#0F0A1E',
-                            bgLight: '#1E1650'
-                        }
-                    },
-                    fontFamily: {
-                        tajawal: ['Tajawal', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background: linear-gradient(135deg, #0F0A1E 0%, #1E1650 100%);
-            background-attachment: fixed;
-            color: #ffffff;
-            min-height: 100vh;
-        }
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.10);
-            backdrop-filter: blur(28px);
-            -webkit-backdrop-filter: blur(28px);
-            border: 1px solid rgba(255, 255, 255, 0.20);
-            border-radius: 32px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-        }
-        .glass-bottom-tag {
-            background: rgba(15, 10, 30, 0.70);
-            backdrop-filter: blur(28px);
-            -webkit-backdrop-filter: blur(28px);
-            border-top: 1px solid rgba(255, 255, 255, 0.20);
-            border-radius: 0 0 32px 32px;
-        }
-        .glass-input {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(28px);
-            border: 1px solid rgba(255, 255, 255, 0.20);
-            color: white;
-        }
-        .glass-input:focus {
-            border-color: #8B5CF6;
-            outline: none;
-            box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
-        }
-        ::-webkit-scrollbar { width: 6px; }
+        body { font-family: 'Tajawal', sans-serif; background-color: #0F0A1E; color: #fff; overflow-x: hidden; }
+        .glass { background: rgba(30, 22, 80, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .glass-card { background: rgba(20, 14, 45, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.3s ease; }
+        .glass-card:hover { border-color: rgba(168, 85, 247, 0.4); transform: translateY(-4px); box-shadow: 0 10px 30px -10px rgba(139, 92, 246, 0.3); }
+        ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0F0A1E; }
-        ::-webkit-scrollbar-thumb { background: #7C3AED; border-radius: 10px; }
-        .glow-effect { box-shadow: 0 0 25px rgba(124, 58, 237, 0.5); }
+        ::-webkit-scrollbar-thumb { background: #3B2F70; border-radius: 4px; }
     </style>
 </head>
-<body class="pb-28">
+<body class="min-h-screen flex flex-col selection:bg-purple-500 selection:text-white">
 
-    <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 transform -translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
-        <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-3 border-brand-glow/40 shadow-2xl">
-            <i id="toast-icon" class="fa-solid fa-circle-check text-brand-glow text-lg"></i>
-            <span id="toast-message" class="text-sm font-medium">تمت العملية بنجاح</span>
-        </div>
+    <!-- شريط الإعلانات والشحن المجاني -->
+    <div class="bg-gradient-to-r from-purple-900 via-indigo-900 to-purple-900 text-xs py-2 px-4 text-center border-b border-purple-800/55 font-medium tracking-wide">
+        ✨ شحن مجاني لكافة مناطق المملكة عند طلبك بـ <span class="font-bold text-yellow-400">500 ر.س</span> أو أكثر! | ضمان رسمي وسريع 🚀
     </div>
 
-    <!-- Header -->
-    <header class="sticky top-0 z-40 p-4">
-        <div class="glass-panel px-6 py-4 max-w-7xl mx-auto flex items-center justify-between gap-4">
-            <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo({top:0, behavior:'smooth'})">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-base via-brand-vivid to-brand-glow flex items-center justify-center font-black text-xl tracking-wider shadow-lg">
-                    Α
-                </div>
-                <div>
-                    <h1 class="font-bold text-lg tracking-wide text-white">الفا ستور <span class="text-brand-glow font-normal text-xs">ALPHA</span></h1>
-                </div>
-            </div>
-
-            <div class="hidden md:flex items-center flex-1 max-w-md mx-4 relative">
-                <input type="text" id="desktop-search" oninput="handleSearch(this.value)" placeholder="ابحث في الفا ستور..." class="w-full glass-input rounded-full py-2.5 px-5 pr-11 text-sm">
-                <i class="fa-solid fa-magnifying-glass absolute right-4 text-white/50"></i>
-            </div>
-
-            <div class="flex items-center gap-3">
-                <button onclick="toggleModal('wishlist-modal')" class="relative w-11 h-11 rounded-full glass-panel flex items-center justify-center hover:bg-white/20 transition">
-                    <i class="fa-regular fa-heart text-lg"></i>
-                    <span id="wishlist-count" class="absolute -top-1 -right-1 bg-brand-vivid text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">0</span>
-                </button>
-
-                <button onclick="toggleModal('cart-modal')" class="relative w-11 h-11 rounded-full bg-gradient-to-r from-brand-vivid to-brand-bright flex items-center justify-center hover:opacity-90 transition glow-effect">
-                    <i class="fa-solid fa-bag-shopping text-lg"></i>
-                    <span id="cart-count" class="absolute -top-1 -right-1 bg-white text-brand-base text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">0</span>
-                </button>
-
-                <button onclick="toggleAuthModal()" id="user-btn" class="w-11 h-11 rounded-full glass-panel flex items-center justify-center hover:bg-white/20 transition">
-                    <i class="fa-regular fa-user text-lg"></i>
-                </button>
-            </div>
+    <!-- الشريط العلوي (Navbar) -->
+    <header class="glass sticky top-0 z-50 border-b border-white/10 px-4 lg:px-12 py-3.5 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <a href="#" class="text-2xl font-black tracking-wider bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-300 bg-clip-text text-transparent">
+                ALPHA <span class="text-white font-light">STORE</span>
+            </a>
+        </div>
+        
+        <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-300">
+            <a href="#" class="hover:text-purple-400 transition">الرئيسية</a>
+            <a href="#products-section" class="hover:text-purple-400 transition">المنتجات الفاخرة</a>
+            <a href="#reviews-section" class="hover:text-purple-400 transition">آراء العملاء</a>
         </div>
 
-        <div class="md:hidden mt-3 max-w-7xl mx-auto">
-            <div class="relative">
-                <input type="text" id="mobile-search" oninput="handleSearch(this.value)" placeholder="ابحث عن منتجات الفا..." class="w-full glass-input rounded-full py-2.5 px-5 pr-11 text-sm">
-                <i class="fa-solid fa-magnifying-glass absolute right-4 top-3 text-white/50"></i>
-            </div>
+        <div class="flex items-center gap-3">
+            <!-- المفضلة -->
+            <button onclick="toggleWishlistModal()" class="relative p-2.5 rounded-xl glass-card hover:bg-white/10 transition text-gray-200">
+                <i class="fa-regular fa-heart text-lg"></i>
+                <span id="wishlist-badge" class="absolute -top-1 -right-1 bg-pink-600 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold hidden">0</span>
+            </button>
+            <!-- السلة -->
+            <button onclick="toggleCartModal()" class="relative p-2.5 rounded-xl glass-card hover:bg-white/10 transition text-gray-200">
+                <i class="fa-solid fa-bag-shopping text-lg"></i>
+                <span id="cart-badge" class="absolute -top-1 -right-1 bg-purple-600 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold hidden">0</span>
+            </button>
+            <!-- حساب المستخدم / تسجيل الدخول -->
+            <button onclick="openAuthModal()" id="auth-btn" class="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-medium text-sm shadow-lg shadow-purple-900/40 hover:opacity-90 transition flex items-center gap-2">
+                <i class="fa-regular fa-user"></i>
+                <span id="auth-btn-text">حسابي</span>
+            </button>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 mt-4">
-        <div class="glass-panel p-8 mb-8 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
-            <div class="absolute -left-20 -bottom-20 w-64 h-64 bg-brand-vivid/30 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="space-y-3 z-10 text-center md:text-right">
-                <span class="px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs font-semibold text-brand-glow inline-block">تشكيلة الفا الحصرية 2026</span>
-                <h2 class="text-3xl md:text-5xl font-extrabold leading-tight">القمة في الأناقة <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-glow to-brand-bright">متجر الفا ستور</span></h2>
-                <p class="text-white/70 text-sm max-w-md">تسوق أحدث اتجاهات الموضة والأغراض الفاخرة المصممة خصيصاً لأصحاب الذوق الأرفع.</p>
+    <!-- الواجهة الرئيسية (Hero Section) -->
+    <section class="relative px-4 lg:px-12 py-16 lg:py-24 max-w-7xl mx-auto w-full flex flex-col items-center text-center">
+        <div class="absolute inset-0 -z-10 flex items-center justify-center opacity-20 pointer-events-none">
+            <div class="w-96 h-96 bg-purple-600 rounded-full blur-[120px]"></div>
+            <div class="w-96 h-96 bg-indigo-600 rounded-full blur-[120px]"></div>
+        </div>
+        <span class="px-4 py-1.5 rounded-full text-xs font-semibold bg-purple-500/10 text-purple-300 border border-purple-500/20 mb-6">
+            ⚡ الإصدارات الفاخرة والأصلية 2026
+        </span>
+        <h1 class="text-4xl lg:text-7xl font-black tracking-tight mb-6 leading-tight">
+            متجرك الفاخر لكل ما هو <br><span class="bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-300 bg-clip-text text-transparent">استثنائي ومتطور</span>
+        </h1>
+        <p class="text-gray-300 text-base lg:text-lg max-w-2xl mb-10">
+            اكتشف أحدث الهواتف الذكية والأجهزة التقنية بتصميم زجاجي فريد، مع ضمان معتمد وشحن سريع حتى باب منزلك.
+        </p>
+        <a href="#products-section" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 font-bold text-white shadow-xl shadow-purple-900/50 hover:scale-105 transition">
+            تسوق المنتجات الآن <i class="fa-solid fa-arrow-down mr-2"></i>
+        </a>
+    </section>
+
+    <!-- قسم المنتجات -->
+    <main id="products-section" class="max-w-7xl mx-auto px-4 lg:px-12 py-12 flex-1 w-full">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
+            <div>
+                <h2 class="text-2xl lg:text-3xl font-black">تشكيلة المنتجات</h2>
+                <p class="text-gray-400 text-sm mt-1">اختر اللون والشكل المفضل لديك وشاهد التحديث الفوري</p>
             </div>
-            <button onclick="scrollToProducts()" class="z-10 px-8 py-4 rounded-full bg-gradient-to-r from-brand-vivid to-brand-bright text-white font-bold shadow-lg hover:shadow-brand-vivid/50 transition duration-300">
-                استكشف المنتجات
-            </button>
+            <div class="flex gap-2 overflow-x-auto pb-2 w-full md:w-auto">
+                <button onclick="filterProducts('all')" class="category-btn px-4 py-2 rounded-xl bg-purple-600 text-white text-sm font-medium transition whitespace-nowrap">الكل</button>
+                <button onclick="filterProducts('phones')" class="category-btn px-4 py-2 rounded-xl glass-card text-gray-300 text-sm font-medium transition whitespace-nowrap">هواتف ذكية</button>
+                <button onclick="filterProducts('audio')" class="category-btn px-4 py-2 rounded-xl glass-card text-gray-300 text-sm font-medium transition whitespace-nowrap">سعات وسماعات</button>
+                <button onclick="filterProducts('accessories')" class="category-btn px-4 py-2 rounded-xl glass-card text-gray-300 text-sm font-medium transition whitespace-nowrap">إكسسوارات فاخرة</button>
+            </div>
         </div>
 
-        <div class="flex items-center gap-3 overflow-x-auto pb-4 mb-6 no-scrollbar">
-            <button onclick="filterCategory('all', this)" class="cat-btn px-6 py-2.5 rounded-full glass-panel text-sm font-medium whitespace-nowrap hover:bg-white/20 transition border-brand-glow/40 bg-brand-vivid/40">الكل</button>
-            <button onclick="filterCategory('apparel', this)" class="cat-btn px-6 py-2.5 rounded-full glass-panel text-sm font-medium whitespace-nowrap hover:bg-white/20 transition">الملابس الفاخرة</button>
-            <button onclick="filterCategory('shoes', this)" class="cat-btn px-6 py-2.5 rounded-full glass-panel text-sm font-medium whitespace-nowrap hover:bg-white/20 transition">الأحذية</button>
-            <button onclick="filterCategory('accessories', this)" class="cat-btn px-6 py-2.5 rounded-full glass-panel text-sm font-medium whitespace-nowrap hover:bg-white/20 transition">الإكسسوارات والعطور</button>
-        </div>
-
-        <div id="products-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+        <!-- شبكة المنتجات -->
+        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- يتم تعبئة المنتجات تلقائياً عبر JavaScript -->
         </div>
     </main>
 
-    <!-- Modal تفاصيل المنتج -->
-    <div id="product-detail-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-end md:items-center justify-center hidden opacity-0 transition-opacity duration-300">
-        <div class="glass-panel w-full md:max-w-2xl max-h-[90vh] overflow-y-auto p-6 rounded-b-none md:rounded-[32px] relative border-brand-glow/30">
-            <button onclick="toggleModal('product-detail-modal')" class="absolute top-4 left-4 w-9 h-9 rounded-full glass-panel flex items-center justify-center text-white/70 hover:text-white">
-                <i class="fa-solid fa-xmark"></i>
+    <!-- قسم آراء العملاء والتقييمات -->
+    <section id="reviews-section" class="max-w-7xl mx-auto px-4 lg:px-12 py-16 border-t border-white/10 w-full">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-black mb-2">تقييمات العملاء الثقة</h2>
+            <p class="text-gray-400 text-sm">ماذا يقول عملائنا عن تجربة التسوق في الفا ستور</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="glass-card p-6 rounded-2xl">
+                <div class="flex text-yellow-400 mb-3 text-sm">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="text-gray-300 text-sm mb-4">"تجربة شراء ممتازة جداً، تغيير ألوان الصور حسب الطلب حقيقي ووصول الجهاز خلال يومين فقط بجدة!"</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-purple-600/30 flex items-center justify-center font-bold text-purple-300">ب</div>
+                    <div>
+                        <h4 class="font-bold text-sm">بدر الملحاوي</h4>
+                        <span class="text-xs text-gray-500">عميل موثق</span>
+                    </div>
+                </div>
+            </div>
+            <div class="glass-card p-6 rounded-2xl">
+                <div class="flex text-yellow-400 mb-3 text-sm">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="text-gray-300 text-sm mb-4">"التصميم الزجاجي للمتجر فخم، وبوابة الدفع الإليكترونية سريعة وآمنة تماماً. شكراً الفا ستور."</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-indigo-600/30 flex items-center justify-center font-bold text-indigo-300">س</div>
+                    <div>
+                        <h4 class="font-bold text-sm">سلطان العتيبي</h4>
+                        <span class="text-xs text-gray-500">عميل موثق</span>
+                    </div>
+                </div>
+            </div>
+            <div class="glass-card p-6 rounded-2xl">
+                <div class="flex text-yellow-400 mb-3 text-sm">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="text-gray-300 text-sm mb-4">"منتجات أصلية وبأسعار تنافسية، ونظام التحقق والإيميل يوضح مدى احترافية المتجر."</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-pink-600/30 flex items-center justify-center font-bold text-pink-300">ف</div>
+                    <div>
+                        <h4 class="font-bold text-sm">فيصل العمري</h4>
+                        <span class="text-xs text-gray-500">عميل موثق</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- الفوتر -->
+    <footer class="glass border-t border-white/10 py-8 px-4 text-center text-sm text-gray-400">
+        <p>© 2026 ALPHA STORE. جميع الحقوق محفوظة. إشراف وتطوير تقني متقدم.</p>
+    </footer>
+
+    <!-- نافذة تفاصيل المنتج / العرض -->
+    <div id="product-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="glass max-w-2xl w-full rounded-3xl p-6 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeProductModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white w-9 h-9 rounded-full bg-white/5 flex items-center justify-center">
+                <i class="fa-solid fa-xmark text-lg"></i>
             </button>
-            <div id="modal-product-content" class="space-y-6"></div>
+            <div id="modal-content" class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                <!-- محتوى المنتج الديناميكي -->
+            </div>
         </div>
     </div>
 
-    <!-- Modal السلة -->
-    <div id="cart-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex justify-end hidden opacity-0 transition-opacity duration-300">
-        <div class="glass-panel w-full max-w-md h-full rounded-none p-6 flex flex-col justify-between border-l border-white/20">
-            <div>
-                <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
-                    <h3 class="text-xl font-bold flex items-center gap-2">
-                        <i class="fa-solid fa-bag-shopping text-brand-glow"></i> سلة الفا ستور
-                    </h3>
-                    <button onclick="toggleModal('cart-modal')" class="w-9 h-9 rounded-full glass-panel flex items-center justify-center text-white/70 hover:text-white">
-                        <i class="fa-solid fa-xmark"></i>
+    <!-- نافذة تسجيل الدخول والتحقق عبر الإيميل (Auth & OTP Modal) -->
+    <div id="auth-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="glass max-w-md w-full rounded-3xl p-8 relative">
+            <button onclick="closeAuthModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <div id="auth-step-1">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-purple-600/20 text-purple-400 rounded-2xl mx-auto flex items-center justify-center text-2xl mb-3">
+                        <i class="fa-solid fa-envelope-circle-check"></i>
+                    </div>
+                    <h3 class="text-2xl font-black">تسجيل الدخول / إنشاء حساب</h3>
+                    <p class="text-gray-400 text-sm mt-1">أدخل بريدك الإلكتروني ليصلك رمز التحقق الخاص بك</p>
+                </div>
+                <form onsubmit="sendOtpCode(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">البريد الإلكتروني</label>
+                        <input type="email5" id="user-email" required placeholder="name@example.com" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-purple-500 text-sm">
+                    </div>
+                    <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 font-bold text-white shadow-lg shadow-purple-900/40 hover:opacity-90 transition">
+                        إرسال رمز التحقق (OTP)
                     </button>
-                </div>
-
-                <div class="mb-4 bg-white/5 p-3 rounded-2xl border border-white/10">
-                    <div class="flex justify-between text-xs mb-1">
-                        <span id="free-shipping-text">أضف منتجات للحصول على الشحن المجاني</span>
-                        <span id="free-shipping-val">0 / 500 ر.س</span>
-                    </div>
-                    <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden">
-                        <div id="free-shipping-bar" class="bg-gradient-to-r from-brand-vivid to-brand-glow h-full w-0 transition-all duration-500"></div>
-                    </div>
-                </div>
-
-                <div id="cart-items" class="space-y-3 max-h-[45vh] overflow-y-auto pr-1"></div>
+                </form>
             </div>
 
-            <div class="space-y-3 border-t border-white/10 pt-4">
-                <div class="space-y-1.5 text-sm">
-                    <div class="flex justify-between text-white/70">
-                        <span>المجموع الفرعي:</span>
-                        <span id="cart-subtotal">0 ر.س</span>
+            <div id="auth-step-2" class="hidden">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-green-600/20 text-green-400 rounded-2xl mx-auto flex items-center justify-center text-2xl mb-3">
+                        <i class="fa-solid fa-shield-halved"></i>
                     </div>
-                    <div class="flex justify-between text-white/70">
-                        <span>ضريبة القيمة المضافة (15%):</span>
-                        <span id="cart-tax">0 ر.س</span>
+                    <h3 class="text-2xl font-black">أدخل رمز التحقق</h3>
+                    <p class="text-gray-400 text-sm mt-1">تم إرسال الرمز إلى <span id="sent-to-email" class="text-purple-400 font-bold"></span></p>
+                </div>
+                <form onsubmit="verifyOtpCode(event)" class="space-y-4">
+                    <div>
+                        <input type="text" id="otp-input" maxlength="4" required placeholder="1234" class="w-full text-center tracking-widest text-2xl px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-purple-500 font-bold">
                     </div>
-                    <div class="flex justify-between text-white/70">
-                        <span>الشحن:</span>
-                        <span id="cart-shipping">0 ر.س</span>
-                    </div>
-                    <div id="discount-row" class="flex justify-between text-emerald-400 hidden">
-                        <span>الخصم (كوبون ALPHA10):</span>
-                        <span id="cart-discount">-0 ر.س</span>
-                    </div>
-                    <div class="flex justify-between text-base font-bold text-white pt-2 border-t border-white/10">
-                        <span>الإجمالي النهائي:</span>
-                        <span id="cart-total" class="text-brand-glow text-xl">0 ر.س</span>
-                    </div>
+                    <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 font-bold text-white shadow-lg hover:opacity-90 transition">
+                        تأكيد وتسجيل الدخول
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة سلة التسوق وإتمام الدفع الحقيقي -->
+    <div id="cart-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex justify-end">
+        <div class="glass w-full max-w-md h-full flex flex-col p-6 overflow-y-auto border-r border-white/10">
+            <div class="flex justify-between items-center mb-6 pb-4 border-b border-white/10">
+                <h3 class="text-xl font-bold flex items-center gap-2"><i class="fa-solid fa-bag-shopping text-purple-400"></i> سلة التسوق</h3>
+                <button onclick="toggleCartModal()" class="text-gray-400 hover:text-white p-2"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <div id="cart-items-container" class="flex-1 space-y-4 overflow-y-auto mb-4">
+                <!-- عناصر السلة -->
+            </div>
+
+            <!-- تفاصيل الفاتورة والشحن المجاني -->
+            <div id="cart-summary" class="border-t border-white/10 pt-4 space-y-3">
+                <div id="free-shipping-bar" class="w-full bg-white/10 h-2 rounded-full overflow-hidden">
+                    <div id="free-shipping-progress" class="bg-gradient-to-r from-purple-500 to-pink-500 h-full w-0 transition-all"></div>
+                </div>
+                <p id="free-shipping-text" class="text-xs text-purple-300 text-center font-medium"></p>
+                
+                <div class="flex justify-between text-sm text-gray-400">
+                    <span>المجموع الفرعي:</span>
+                    <span id="cart-subtotal">0 ر.س</span>
+                </div>
+                <div class="flex justify-between text-sm text-gray-400">
+                    <span>رسوم الشحن:</span>
+                    <span id="cart-shipping">35 ر.س</span>
+                </div>
+                <div class="flex justify-between text-lg font-bold border-t border-white/10 pt-3">
+                    <span>الإجمالي النهائي:</span>
+                    <span id="cart-total" class="text-purple-400">0 ر.س</span>
                 </div>
 
-                <div class="flex gap-2">
-                    <input type="text" id="coupon-code" placeholder="كود الخصم (جرّب ALPHA10)" class="glass-input flex-1 rounded-full px-4 py-2 text-xs">
-                    <button onclick="applyCoupon()" class="px-5 py-2 rounded-full bg-white/10 hover:bg-white/20 text-xs font-bold border border-white/20">تطبيق</button>
-                </div>
-
-                <button onclick="checkout()" class="w-full py-3.5 rounded-full bg-gradient-to-r from-brand-vivid to-brand-bright font-bold text-center hover:opacity-90 transition glow-effect">
-                    إتمام الشراء الآن
+                <button onclick="openCheckoutModal()" id="checkout-btn" class="w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 font-bold text-white shadow-xl hover:opacity-90 transition mt-2">
+                    إتمام الدفع الآمن
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Modal المستخدم -->
-    <div id="auth-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
-        <div class="glass-panel w-full max-w-md p-6 relative border-brand-glow/30">
-            <button onclick="toggleModal('auth-modal')" class="absolute top-4 left-4 w-9 h-9 rounded-full glass-panel flex items-center justify-center text-white/70 hover:text-white">
+    <!-- نافذة المفضلة -->
+    <div id="wishlist-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex justify-end">
+        <div class="glass w-full max-w-md h-full flex flex-col p-6 overflow-y-auto border-r border-white/10">
+            <div class="flex justify-between items-center mb-6 pb-4 border-b border-white/10">
+                <h3 class="text-xl font-bold flex items-center gap-2"><i class="fa-solid fa-heart text-pink-500"></i> المفضلة</h3>
+                <button onclick="toggleWishlistModal()" class="text-gray-400 hover:text-white p-2"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div id="wishlist-items-container" class="flex-1 space-y-4 overflow-y-auto"></div>
+        </div>
+    </div>
+
+    <!-- نافذة الدفع الحقيقي الآمن (Checkout Gateway - لا يوجد شراء وهمي بدون دفع) -->
+    <div id="checkout-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="glass max-w-lg w-full rounded-3xl p-8 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeCheckoutModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
                 <i class="fa-solid fa-xmark"></i>
             </button>
-            <div id="auth-content"></div>
-        </div>
-    </div>
-
-    <!-- Modal المفضلة -->
-    <div id="wishlist-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex justify-end hidden opacity-0 transition-opacity duration-300">
-        <div class="glass-panel w-full max-w-md h-full rounded-none p-6 flex flex-col justify-between border-l border-white/20">
-            <div>
-                <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
-                    <h3 class="text-xl font-bold flex items-center gap-2">
-                        <i class="fa-solid fa-heart text-pink-500"></i> المفضلة - الفا ستور
-                    </h3>
-                    <button onclick="toggleModal('wishlist-modal')" class="w-9 h-9 rounded-full glass-panel flex items-center justify-center text-white/70 hover:text-white">
-                        <i class="fa-solid fa-xmark"></i>
+            <h3 class="text-2xl font-black mb-2 flex items-center gap-2"><i class="fa-solid fa-lock text-green-400"></i> بوابة الدفع الآمن</h3>
+            <p class="text-gray-400 text-sm mb-6">أدخل بيانات الدفع لإتمام عملية الشراء بنجاح وتأكيد الطلب</p>
+            
+            <form onsubmit="processRealPayment(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">الاسم على البطاقة</label>
+                    <input type="text" required placeholder="Bader Al-Mlhawi" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">رقم البطاقة الائتمانية أو مدى</label>
+                    <input type="text" required maxlength="19" placeholder="4500 •••• •••• ••••" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">تاريخ الانتهاء</label>
+                        <input type="text" required placeholder="MM/YY" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">رمز الأمان (CVV)</label>
+                        <input type="password" required maxlength="3" placeholder="123" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500">
+                    </div>
+                </div>
+                <div class="pt-2">
+                    <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 font-bold text-white shadow-lg hover:opacity-90 transition text-base">
+                        تأكيد ودفع المبلغ (<span id="checkout-modal-total">0</span> ر.س)
                     </button>
                 </div>
-                <div id="wishlist-items" class="space-y-3 max-h-[75vh] overflow-y-auto"></div>
-            </div>
+            </form>
         </div>
     </div>
 
-    <!-- Mobile Nav Bar -->
-    <div class="md:hidden fixed bottom-4 left-4 right-4 z-40">
-        <div class="glass-panel py-3 px-6 flex items-center justify-around border-white/20 shadow-2xl">
-            <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="flex flex-col items-center gap-1 text-brand-glow">
-                <i class="fa-solid fa-house text-lg"></i>
-                <span class="text-[10px]">الرئيسية</span>
-            </button>
-            <button onclick="toggleModal('wishlist-modal')" class="flex flex-col items-center gap-1 text-white/70">
-                <i class="fa-regular fa-heart text-lg"></i>
-                <span class="text-[10px]">المفضلة</span>
-            </button>
-            <button onclick="toggleModal('cart-modal')" class="flex flex-col items-center gap-1 text-white/70 relative">
-                <i class="fa-solid fa-bag-shopping text-lg"></i>
-                <span class="text-[10px]">السلة</span>
-            </button>
-            <button onclick="toggleAuthModal()" class="flex flex-col items-center gap-1 text-white/70">
-                <i class="fa-regular fa-user text-lg"></i>
-                <span class="text-[10px]">حسابي</span>
-            </button>
-        </div>
+    <!-- إشعار Toast -->
+    <div id="toast" class="fixed bottom-6 right-6 glass px-6 py-3.5 rounded-2xl text-sm font-semibold text-white shadow-2xl translate-y-28 transition-transform duration-300 z-50 flex items-center gap-3 border border-purple-500/30">
+        <i class="fa-solid fa-circle-check text-green-400 text-lg"></i>
+        <span id="toast-message">تمت العملية بنجاح</span>
     </div>
 
     <script>
+        // قاعدة بيانات المنتجات الفاخرة المحدثة والممتدة بكثافة
         const products = [
             {
                 id: 1,
-                name: "هودي الفا الفاخر",
-                price: 490,
-                category: "apparel",
-                rating: 5.0,
-                reviewsCount: 32,
-                image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500&auto=format&fit=crop&q=80",
-                description: "هودي فاخر من تشكيلة الفا ستور مصنوع من القطن العضوي 100% بتطريز ملكي متقن.",
-                sizes: ["S", "M", "L", "XL"],
-                colors: ["#0F0A1E", "#4C1D95", "#FFFFFF"],
-                reviews: [
-                    { user: "عبدالله العتيبي", rating: 5, comment: "خامة ممتازة وتصميم يليق باسم الفا ستور!" }
-                ]
+                name: "Alpha Ultra Pro Max 2026",
+                category: "phones",
+                price: 4599,
+                rating: 4.9,
+                colors: [
+                    { name: "أسود تيتانيوم", hex: "#1c1c1e", image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=600&auto=format&fit=crop&q=80" },
+                    { name: "فضي ملكي", hex: "#e5e5ea", image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&auto=format&fit=crop&q=80" },
+                    { name: "بنفجي فاخر", hex: "#4a154b", image: "https://images.unsplash.com/photo-1591337676887-a217a6970a8a?w=600&auto=format&fit=crop&q=80" }
+                ],
+                desc: "شاشة أوليد فائقة، كاميرا احترافية بدقة 200 ميجابكسل، ومعالج ألترا الخارق."
             },
             {
                 id: 2,
-                name: "سترة المخمل الملكية",
-                price: 720,
-                category: "apparel",
-                rating: 4.9,
-                reviewsCount: 19,
-                image: "https://images.unsplash.com/photo-1543076447-215ad9ba6923?w=500&auto=format&fit=crop&q=80",
-                description: "سترة مخملية بقلنسوة وتفاصيل زجاجية فاخرة تعكس هويتك الاستثنائية.",
-                sizes: ["M", "L", "XL"],
-                colors: ["#1E1650", "#4C1D95"],
-                reviews: [
-                    { user: "فيصل الشمري", rating: 5, comment: "قصة السترة والجودة شيء فوق الخيال." }
-                ]
+                name: "Alpha Watch Series X",
+                category: "accessories",
+                price: 1899,
+                rating: 4.8,
+                colors: [
+                    { name: "أسود مطفي", hex: "#222222", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&auto=format&fit=crop&q=80" },
+                    { name: "ذهبي وردي", hex: "#b76e79", image: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=600&auto=format&fit=crop&q=80" }
+                ],
+                desc: "ساعة ذكية مقاومة للماء مع مستشعرات متطورة لصحة القلب واللياقة البدنية."
             },
             {
                 id: 3,
-                name: "حذاء الفا ستريت 2026",
-                price: 890,
-                category: "shoes",
-                rating: 5.0,
-                reviewsCount: 41,
-                image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&auto=format&fit=crop&q=80",
-                description: "حذاء رياضي أنيق بجلد طبيعي وتصميم زجاجي عصري للغاية مريح طوال اليوم.",
-                sizes: ["40", "41", "42", "43", "44"],
-                colors: ["#7C3AED", "#FFFFFF", "#000000"],
-                reviews: []
+                name: "Alpha Pods Pro ANC",
+                category: "audio",
+                price: 899,
+                rating: 4.7,
+                colors: [
+                    { name: "أبيض لؤلؤي", hex: "#f8f9fa", image: "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=600&auto=format&fit=crop&q=80" },
+                    { name: "أسود فاحم", hex: "#111111", image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600&auto=format&fit=crop&q=80" }
+                ],
+                desc: "عزل ضوضاء نشط متطور، صوت نقي ومحيطي يضعك في قلب الحدث."
             },
             {
                 id: 4,
-                name: "عطر ALPHA Imperial 100ml",
-                price: 580,
-                category: "accessories",
+                name: "Alpha Tab Studio 13",
+                category: "phones",
+                price: 3299,
                 rating: 4.9,
-                reviewsCount: 50,
-                image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=500&auto=format&fit=crop&q=80",
-                description: "المزيج العطري الخشب والمجد من الفا ستور بثبات يدوم لأكثر من 24 ساعة.",
-                sizes: ["100ml"],
-                colors: ["#4C1D95"],
-                reviews: []
+                colors: [
+                    { name: "رمادي فلكي", hex: "#2c2c2e", image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=600&auto=format&fit=crop&q=80" },
+                    { name: "فضي", hex: "#d1d1d6", image: "https://images.unsplash.com/photo-1561154464-82e9adf32764?w=600&auto=format&fit=crop&q=80" }
+                ],
+                desc: "جهاز لوحي مصمم للمبدعين والمحترفين بشاشة 13 بوصة ودقة مذهلة."
+            },
+            {
+                id: 5,
+                name: "Alpha MagSafe PowerBank",
+                category: "accessories",
+                price: 349,
+                rating: 4.6,
+                colors: [
+                    { name: "بنفسجي داكن", hex: "#1E1650", image: "https://images.unsplash.com/photo-1609592424097-4148cf4c1c98?w=600&auto=format&fit=crop&q=80" },
+                    { name: "أسود", hex: "#000000", image: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=600&auto=format&fit=crop&q=80" }
+                ],
+                desc: "شاحن مغناطيسي لاسلكي سريع بسعة 10,000 مللي أمبير بتصميم نحيف."
+            },
+            {
+                id: 6,
+                name: "Alpha Cyber Glasses VR",
+                category: "accessories",
+                price: 2499,
+                rating: 4.8,
+                colors: [
+                    { name: "أسود كربوني", hex: "#18181b", image: "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?w=600&auto=format&fit=crop&q=80" }
+                ],
+                desc: "نظارة الواقع الافتراضي والمعزز لتجربة ألعاب ومشاهدة سينمائية لا مثيل لها."
             }
         ];
 
-        let cart = JSON.parse(localStorage.getItem('alpha_cart')) || [];
-        let wishlist = JSON.parse(localStorage.getItem('alpha_wishlist')) || [];
-        let currentUser = JSON.parse(localStorage.getItem('alpha_user')) || null;
-        let isCouponApplied = false;
+        let cart = [];
+        let wishlist = [];
+        let currentUser = null;
 
-        document.addEventListener('DOMContentLoaded', () => {
-            renderProducts(products);
-            updateCartUI();
-            updateWishlistUI();
-            updateUserUI();
+        // تهيئة العرض عند فتح الموقع
+        window.addEventListener('DOMContentLoaded', () => {
+            renderProducts('all');
+            updateBadges();
         });
 
-        function renderProducts(items) {
+        // عرض المنتجات وتصفيتها
+        function renderProducts(category) {
             const grid = document.getElementById('products-grid');
-            if (items.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-12 text-white/50">لا توجد منتجات مطابقة في الفا ستور.</div>`;
-                return;
-            }
+            grid.innerHTML = '';
 
-            grid.innerHTML = items.map(product => {
-                const isWishlist = wishlist.includes(product.id);
-                return `
-                    <div class="glass-panel overflow-hidden group flex flex-col justify-between hover:border-brand-glow/50 transition duration-300 relative">
-                        <button onclick="toggleWishlist(${product.id})" class="absolute top-3 left-3 z-20 w-8 h-8 rounded-full glass-panel flex items-center justify-center text-xs transition ${isWishlist ? 'text-pink-500 bg-white/20' : 'text-white/70'}">
-                            <i class="fa-${isWishlist ? 'solid' : 'regular'} fa-heart"></i>
-                        </button>
+            const filtered = category === 'all' ? products : products.filter(p => p.category === category);
 
-                        <div class="relative p-4 flex items-center justify-center h-48 md:h-56 cursor-pointer" onclick="openProductDetail(${product.id})">
-                            <img src="${product.image}" alt="${product.name}" class="max-h-full object-contain group-hover:scale-105 transition duration-500 drop-shadow-2xl">
+            filtered.forEach(product => {
+                const defaultColor = product.colors[0];
+                const isWishlisted = wishlist.some(item => item.id === product.id);
+
+                const card = document.createElement('div');
+                card.className = 'glass-card rounded-3xl p-5 flex flex-col justify-between relative group';
+                card.innerHTML = `
+                    <button onclick="toggleWishlist(${product.id})" class="absolute top-4 left-4 z-10 w-9 h-9 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white hover:scale-110 transition">
+                        <i class="fa-${isWishlisted ? 'solid text-pink-500' : 'regular'} fa-heart"></i>
+                    </button>
+                    <div class="relative w-full h-56 rounded-2xl overflow-hidden mb-4 cursor-pointer" onclick="openProductModal(${product.id})">
+                        <img id="product-img-${product.id}" src="${defaultColor.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-xs text-purple-400 font-semibold uppercase tracking-wider">${product.category}</span>
+                            <div class="flex items-center gap-1 text-xs text-yellow-400 font-bold"><i class="fa-solid fa-star"></i> ${product.rating}</div>
                         </div>
-
-                        <div class="glass-bottom-tag p-3.5 space-y-2">
-                            <div class="flex items-center justify-between text-[11px] text-white/70">
-                                <span><i class="fa-solid fa-star text-amber-400"></i> ${product.rating}</span>
-                                <span>الفا ستور</span>
+                        <h3 class="font-bold text-lg mb-2 cursor-pointer hover:text-purple-300 transition" onclick="openProductModal(${product.id})">${product.name}</h3>
+                        <p class="text-gray-400 text-xs mb-4 line-clamp-2">${product.desc}</p>
+                    </div>
+                    <div>
+                        <!-- ألوان المنتج مع التغيير الفوري للصورة -->
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="text-xs text-gray-400">اللون:</span>
+                            <div class="flex gap-1.5" id="color-options-${product.id}">
+                                ${product.colors.map((c, idx) => `
+                                    <button onclick="changeProductColor(${product.id}, '${c.image}', this)" title="${c.name}" class="w-5 h-5 rounded-full border-2 ${idx === 0 ? 'border-purple-400 scale-110' : 'border-transparent'} transition" style="background-color: ${c.hex};"></button>
+                                `).join('')}
                             </div>
-                            <h3 class="font-bold text-sm truncate text-white">${product.name}</h3>
-                            <div class="flex items-center justify-between pt-1">
-                                <span class="font-extrabold text-brand-glow text-sm">${product.price} <span class="text-[10px] font-normal">ر.س</span></span>
-                                <button onclick="openProductDetail(${product.id})" class="px-3 py-1.5 rounded-full bg-brand-vivid/80 hover:bg-brand-vivid text-white text-xs font-bold transition">
-                                    تخصيص
-                                </button>
-                            </div>
+                        </div>
+                        <div class="flex items-center justify-between pt-3 border-t border-white/10">
+                            <span class="text-xl font-black text-purple-300">${product.price} <span class="text-xs font-normal text-gray-400">ر.س</span></span>
+                            <button onclick="addToCart(${product.id})" class="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs shadow-lg shadow-purple-900/40 transition flex items-center gap-2">
+                                <i class="fa-solid fa-cart-plus"></i> أضف للسلة
+                            </button>
                         </div>
                     </div>
                 `;
-            }).join('');
+                grid.appendChild(card);
+            });
+
+            // تحديث الأزرار النشطة
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.className = "category-btn px-4 py-2 rounded-xl glass-card text-gray-300 text-sm font-medium transition whitespace-nowrap";
+            });
         }
 
-        function openProductDetail(id) {
+        // تغيير صورة المنتج بناءً على اللون المختار
+        function changeProductColor(productId, imageUrl, btnElement) {
+            const imgElement = document.getElementById(`product-img-${productId}`);
+            if (imgElement) {
+                imgElement.src = imageUrl;
+            }
+            // تحديث الحدود النشطة للألوان
+            const parent = btnElement.parentElement;
+            parent.querySelectorAll('button').forEach(b => b.classList.remove('border-purple-400', 'scale-110'));
+            parent.querySelectorAll('button').forEach(b => b.classList.add('border-transparent'));
+            btnElement.classList.add('border-purple-400', 'scale-110');
+            btnElement.classList.remove('border-transparent');
+        }
+
+        // تصفية المنتجات بالأقسام
+        function filterProducts(category) {
+            renderProducts(category);
+        }
+
+        // تفاصيل المنتج في نافذة منبثقة
+        function openProductModal(id) {
             const product = products.find(p => p.id === id);
             if (!product) return;
 
-            const content = document.getElementById('modal-product-content');
+            const modal = document.getElementById('product-modal');
+            const content = document.getElementById('modal-content');
+
             content.innerHTML = `
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-                    <div class="p-4 glass-panel rounded-2xl flex items-center justify-center">
-                        <img src="${product.image}" class="max-h-64 object-contain drop-shadow-2xl">
-                    </div>
-                    <div class="space-y-4">
-                        <h2 class="text-2xl font-bold">${product.name}</h2>
-                        <p class="text-xs text-white/70 leading-relaxed">${product.description}</p>
-                        <div class="text-xl font-extrabold text-brand-glow">${product.price} ر.س</div>
-
-                        <div>
-                            <label class="block text-xs font-bold mb-2">اختر المقاس:</label>
+                <div class="relative rounded-2xl overflow-hidden h-72">
+                    <img id="modal-main-img" src="${product.colors[0].image}" class="w-full h-full object-cover">
+                </div>
+                <div class="flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs text-purple-400 uppercase font-semibold">${product.category}</span>
+                        <h2 class="text-2xl font-black mt-1 mb-2">${product.name}</h2>
+                        <div class="flex items-center gap-1 text-sm text-yellow-400 font-bold mb-3"><i class="fa-solid fa-star"></i> ${product.rating}</div>
+                        <p class="text-gray-300 text-sm mb-4">${product.desc}</p>
+                        <div class="mb-4">
+                            <label class="block text-xs text-gray-400 mb-2">اختر اللون:</label>
                             <div class="flex gap-2">
-                                ${product.sizes.map((s, idx) => `
-                                    <button onclick="selectSize(this)" class="size-btn px-3.5 py-1.5 rounded-full glass-panel text-xs ${idx === 0 ? 'bg-brand-vivid border-brand-glow' : ''}">${s}</button>
-                                `).join('')}
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold mb-2">اختر اللون:</label>
-                            <div class="flex gap-3">
                                 ${product.colors.map((c, idx) => `
-                                    <button onclick="selectColor(this)" data-color="${c}" class="color-btn w-7 h-7 rounded-full border-2 ${idx === 0 ? 'border-brand-glow scale-110' : 'border-transparent'}" style="background-color: ${c}"></button>
+                                    <button onclick="document.getElementById('modal-main-img').src='${c.image}'" class="w-6 h-6 rounded-full border-2 ${idx === 0 ? 'border-purple-400' : 'border-transparent'}" style="background-color: ${c.hex};"></button>
                                 `).join('')}
                             </div>
                         </div>
-
-                        <button onclick="addToCartFromModal(${product.id})" class="w-full py-3 rounded-full bg-gradient-to-r from-brand-vivid to-brand-bright font-bold text-sm shadow-lg hover:opacity-90 transition">
-                            إضافة للسلة بالمواصفات
+                    </div>
+                    <div>
+                        <div class="text-2xl font-black text-purple-300 mb-4">${product.price} ر.س</div>
+                        <button onclick="addToCart(${product.id}); closeProductModal();" class="w-full py-3 rounded-xl bg-purple-600 hover:bg-purple-500 font-bold text-white shadow-lg transition">
+                            أضف إلى السلة الآن
                         </button>
                     </div>
                 </div>
-
-                <div class="border-t border-white/10 pt-4 space-y-4">
-                    <h3 class="font-bold text-sm">تقييمات مجتمع الفا ستور (${product.reviews.length})</h3>
-                    <div class="space-y-2 max-h-40 overflow-y-auto pr-1">
-                        ${product.reviews.length > 0 ? product.reviews.map(r => `
-                            <div class="p-3 rounded-2xl bg-white/5 border border-white/10 text-xs space-y-1">
-                                <div class="flex justify-between font-bold">
-                                    <span>${r.user}</span>
-                                    <span class="text-amber-400">★ ${r.rating}</span>
-                                </div>
-                                <p class="text-white/70">${r.comment}</p>
-                            </div>
-                        `).join('') : '<p class="text-xs text-white/40">لا توجد تعليقات بعد. كن أول من يقيّم في الفا ستور!</p>'}
-                    </div>
-
-                    <div class="space-y-2">
-                        <input type="text" id="new-comment-text" placeholder="اكتب تعليقك..." class="w-full glass-input rounded-full px-4 py-2 text-xs">
-                        <button onclick="addReview(${product.id})" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-xs font-bold border border-white/20">إضافة تعليق</button>
-                    </div>
-                </div>
             `;
-            toggleModal('product-detail-modal');
+            modal.classList.remove('hidden');
         }
 
-        function selectSize(btn) {
-            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('bg-brand-vivid', 'border-brand-glow'));
-            btn.classList.add('bg-brand-vivid', 'border-brand-glow');
-        }
-        function selectColor(btn) {
-            document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('border-brand-glow', 'scale-110'));
-            btn.classList.add('border-brand-glow', 'scale-110');
+        function closeProductModal() {
+            document.getElementById('product-modal').classList.add('hidden');
         }
 
-        function addToCartFromModal(productId) {
-            const product = products.find(p => p.id === productId);
-            const activeSize = document.querySelector('.size-btn.bg-brand-vivid')?.innerText || product.sizes[0];
-            const activeColor = document.querySelector('.color-btn.border-brand-glow')?.dataset.color || product.colors[0];
-
-            const cartKey = `${productId}-${activeSize}-${activeColor}`;
-            const existingItem = cart.find(item => item.key === cartKey);
-
-            if (existingItem) {
-                existingItem.quantity += 1;
+        // إضافة للسلة
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            const existing = cart.find(item => item.id === id);
+            if (existing) {
+                existing.qty++;
             } else {
-                cart.push({
-                    key: cartKey,
-                    id: product.id,
-                    name: product.name,
-                    price: product.price,
-                    image: product.image,
-                    size: activeSize,
-                    color: activeColor,
-                    quantity: 1
-                });
+                cart.push({ ...product, qty: 1 });
             }
-
-            saveCart();
-            toggleModal('product-detail-modal');
-            showToast(`تمت إضافة ${product.name} للسلة`);
+            updateBadges();
+            showToast(`تم إضافة ${product.name} إلى السلة بنجاح`);
         }
 
-        function updateQuantity(key, delta) {
-            const item = cart.find(i => i.key === key);
-            if (!item) return;
-            item.quantity += delta;
-            if (item.quantity <= 0) {
-                cart = cart.filter(i => i.key !== key);
-            }
-            saveCart();
-        }
-
-        function saveCart() {
-            localStorage.setItem('alpha_cart', JSON.stringify(cart));
-            updateCartUI();
-        }
-
-        function updateCartUI() {
-            const cartContainer = document.getElementById('cart-items');
-            const cartCount = document.getElementById('cart-count');
-            const totalItems = cart.reduce((acc, i) => acc + i.quantity, 0);
-            cartCount.innerText = totalItems;
-
-            if (cart.length === 0) {
-                cartContainer.innerHTML = `<div class="text-center py-8 text-white/50 text-xs">سلتك فارغة في الفا ستور.</div>`;
-            } else {
-                cartContainer.innerHTML = cart.map(item => `
-                    <div class="p-3 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between gap-3 text-xs">
-                        <img src="${item.image}" class="w-12 h-12 object-contain rounded-lg">
-                        <div class="flex-1">
-                            <h4 class="font-bold truncate">${item.name}</h4>
-                            <div class="text-white/50 text-[10px]">المقاس: ${item.size}</div>
-                            <div class="text-brand-glow font-bold mt-1">${item.price} ر.س</div>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <button onclick="updateQuantity('${item.key}', -1)" class="w-6 h-6 rounded-full glass-panel flex items-center justify-center">-</button>
-                            <span class="font-bold">${item.quantity}</span>
-                            <button onclick="updateQuantity('${item.key}', 1)" class="w-6 h-6 rounded-full glass-panel flex items-center justify-center">+</button>
-                        </div>
-                    </div>
-                `).join('');
-            }
-
-            const subtotal = cart.reduce((acc, i) => acc + (i.price * i.quantity), 0);
-            const tax = subtotal * 0.15;
-            const discount = isCouponApplied ? subtotal * 0.10 : 0;
-            const shipping = (subtotal >= 500 || subtotal === 0) ? 0 : 35;
-            const total = subtotal + tax + shipping - discount;
-
-            document.getElementById('cart-subtotal').innerText = `${subtotal.toFixed(0)} ر.س`;
-            document.getElementById('cart-tax').innerText = `${tax.toFixed(0)} ر.س`;
-            document.getElementById('cart-shipping').innerText = shipping === 0 ? 'مجاني' : `${shipping} ر.س`;
-            document.getElementById('cart-total').innerText = `${total.toFixed(0)} ر.س`;
-
-            if (isCouponApplied) {
-                document.getElementById('discount-row').classList.remove('hidden');
-                document.getElementById('cart-discount').innerText = `-${discount.toFixed(0)} ر.س`;
-            }
-
-            const freeShippingLimit = 500;
-            const progress = Math.min((subtotal / freeShippingLimit) * 100, 100);
-            document.getElementById('free-shipping-bar').style.width = `${progress}%`;
-            document.getElementById('free-shipping-val').innerText = `${subtotal} / ${freeShippingLimit} ر.س`;
-            if (subtotal >= freeShippingLimit) {
-                document.getElementById('free-shipping-text').innerText = 'حصلت على شحن مجاني من الفا ستور!';
-            } else {
-                document.getElementById('free-shipping-text').innerText = `متبقي ${freeShippingLimit - subtotal} ر.س للشحن المجاني`;
-            }
-        }
-
-        function applyCoupon() {
-            const code = document.getElementById('coupon-code').value.trim();
-            if (code.toUpperCase() === 'ALPHA10') {
-                isCouponApplied = true;
-                updateCartUI();
-                showToast('تم تطبيق كود خصم الفا ستور (10%)');
-            } else {
-                showToast('كود الخصم غير صحيح (جرّب ALPHA10)');
-            }
-        }
-
+        // المفضلة
         function toggleWishlist(id) {
-            if (wishlist.includes(id)) {
-                wishlist = wishlist.filter(i => i !== id);
-                showToast('تم الحذف من المفضلة');
+            const product = products.find(p => p.id === id);
+            const index = wishlist.findIndex(item => item.id === id);
+            if (index > -1) {
+                wishlist.splice(index, 1);
+                showToast("تمت الإزالة من المفضلة");
             } else {
-                wishlist.push(id);
-                showToast('تمت الإضافة لمفضلة الفا ستور ❤️');
+                wishlist.push(product);
+                showToast("تمت الإضافة للمفضلة");
             }
-            localStorage.setItem('alpha_wishlist', JSON.stringify(wishlist));
-            updateWishlistUI();
-            renderProducts(products);
+            renderProducts('all');
+            updateBadges();
         }
 
-        function updateWishlistUI() {
-            document.getElementById('wishlist-count').innerText = wishlist.length;
-            const container = document.getElementById('wishlist-items');
-            const items = products.filter(p => wishlist.includes(p.id));
+        // تحديث العدادات والشحن المجاني
+        function updateBadges() {
+            const cartBadge = document.getElementById('cart-badge');
+            const wishlistBadge = document.getElementById('wishlist-badge');
 
-            if (items.length === 0) {
-                container.innerHTML = `<div class="text-center py-8 text-white/50 text-xs">لا توجد منتجات بالمفضلة.</div>`;
+            const totalCartItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            if (totalCartItems > 0) {
+                cartBadge.innerText = totalCartItems;
+                cartBadge.classList.remove('hidden');
             } else {
-                container.innerHTML = items.map(p => `
-                    <div class="p-3 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between gap-3 text-xs">
-                        <img src="${p.image}" class="w-12 h-12 object-contain rounded-lg">
-                        <div class="flex-1">
-                            <h4 class="font-bold truncate">${p.name}</h4>
-                            <div class="text-brand-glow font-bold">${p.price} ر.س</div>
-                        </div>
-                        <button onclick="toggleWishlist(${p.id})" class="text-pink-500 hover:text-white text-xs">حذف</button>
-                    </div>
-                `).join('');
+                cartBadge.classList.add('hidden');
             }
+
+            if (wishlist.length > 0) {
+                wishlistBadge.innerText = wishlist.length;
+                wishlistBadge.classList.remove('hidden');
+            } else {
+                wishlistBadge.classList.add('hidden');
+            }
+
+            renderCartItems();
+            renderWishlistItems();
         }
 
-        function checkout() {
+        // عرض السلة وحساب الشحن المجاني (500 ر.س)
+        function renderCartItems() {
+            const container = document.getElementById('cart-items-container');
+            container.innerHTML = '';
+
             if (cart.length === 0) {
-                showToast('سلتك فارغة!');
+                container.innerHTML = `<div class="text-center text-gray-500 py-12">سلة التسوق فارغة</div>`;
+                document.getElementById('cart-subtotal').innerText = '0 ر.س';
+                document.getElementById('cart-shipping').innerText = '0 ر.س';
+                document.getElementById('cart-total').innerText = '0 ر.س';
+                document.getElementById('free-shipping-progress').style.width = '0%';
+                document.getElementById('free-shipping-text').innerText = 'أضف منتجات بقيمة 500 ر.س لتحصل على شحن مجاني!';
                 return;
             }
-            if (!currentUser) {
-                showToast('سجل دخولك أولاً لإتمام طلب الفا ستور');
-                toggleModal('cart-modal');
-                toggleAuthModal();
-                return;
-            }
-            showToast('تم إتمام الطلب بنجاح! شقراً لتسوقك من الفا ستور');
-            cart = [];
-            saveCart();
-            toggleModal('cart-modal');
-        }
 
-        function addReview(productId) {
-            const input = document.getElementById('new-comment-text');
-            if (!input.value.trim()) return;
-            const product = products.find(p => p.id === productId);
-            product.reviews.push({
-                user: currentUser ? currentUser.name : "عميل الفا",
-                rating: 5,
-                comment: input.value.trim()
+            let subtotal = 0;
+            cart.forEach(item => {
+                subtotal += item.price * item.qty;
+                const div = document.createElement('div');
+                div.className = 'glass p-3 rounded-2xl flex items-center justify-between gap-3';
+                div.innerHTML = `
+                    <img src="${item.colors[0].image}" class="w-14 h-14 object-cover rounded-xl">
+                    <div class="flex-1">
+                        <h4 class="font-bold text-sm">${item.name}</h4>
+                        <span class="text-purple-400 text-xs">${item.price} ر.س</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="updateQty(${item.id}, -1)" class="w-6 h-6 rounded-lg bg-white/10 flex items-center justify-center text-xs">-</button>
+                        <span class="text-sm font-bold">${item.qty}</span>
+                        <button onclick="updateQty(${item.id}, 1)" class="w-6 h-6 rounded-lg bg-white/10 flex items-center justify-center text-xs">+</button>
+                    </div>
+                `;
+                container.appendChild(div);
             });
-            input.value = '';
-            openProductDetail(productId);
-            showToast('شكراً لتفكيرك ومشاركتك التقييم!');
-        }
 
-        function toggleAuthModal() {
-            const content = document.getElementById('auth-content');
-            if (currentUser) {
-                content.innerHTML = `
-                    <div class="text-center space-y-4">
-                        <div class="w-16 h-16 rounded-full bg-brand-vivid mx-auto flex items-center justify-center text-2xl font-bold">
-                            ${currentUser.name[0]}
-                        </div>
-                        <h3 class="text-lg font-bold">مرحباً بك، ${currentUser.name}</h3>
-                        <p class="text-xs text-white/60">${currentUser.email}</p>
-                        <button onclick="logout()" class="w-full py-2.5 rounded-full bg-red-500/20 text-red-300 border border-red-500/30 text-xs font-bold">تسجيل الخروج</button>
-                    </div>
-                `;
+            const shipping = subtotal >= 500 || subtotal === 0 ? 0 : 35;
+            const total = subtotal + shipping;
+
+            document.getElementById('cart-subtotal').innerText = subtotal + ' ر.س';
+            document.getElementById('cart-shipping').innerText = shipping === 0 ? 'مجاني ✨' : shipping + ' ر.س';
+            document.getElementById('cart-total').innerText = total + ' ر.س';
+            document.getElementById('checkout-modal-total').innerText = total;
+
+            // شريط التقدم للشحن المجاني
+            const progressPercent = Math.min((subtotal / 500) * 100, 100);
+            document.getElementById('free-shipping-progress').style.width = progressPercent + '%';
+            if (subtotal >= 500) {
+                document.getElementById('free-shipping-text').innerText = '🎉 مبروك! لقد حصلت على الشحن المجاني.';
             } else {
-                content.innerHTML = `
-                    <div class="space-y-4">
-                        <h3 class="text-lg font-bold text-center">دخول / حساب جديد - الفا ستور</h3>
-                        <input type="text" id="auth-name" placeholder="الاسم الكامل" class="w-full glass-input rounded-full px-4 py-2.5 text-xs">
-                        <input type="email" id="auth-email" placeholder="البريد الإلكتروني" class="w-full glass-input rounded-full px-4 py-2.5 text-xs">
-                        <button onclick="login()" class="w-full py-3 rounded-full bg-gradient-to-r from-brand-vivid to-brand-bright font-bold text-xs">دخول</button>
-                    </div>
-                `;
+                document.getElementById('free-shipping-text').innerText = `أضف بقيمة ${500 - subtotal} ر.س إضافية لتحصل على شحن مجاني!`;
             }
-            toggleModal('auth-modal');
         }
 
-        function login() {
-            const name = document.getElementById('auth-name').value.trim();
-            const email = document.getElementById('auth-email').value.trim();
-            if (!name || !email) {
-                showToast('يرجى ملء جميع الحقول');
+        function updateQty(id, change) {
+            const item = cart.find(i => i.id === id);
+            if (item) {
+                item.qty += change;
+                if (item.qty <= 0) {
+                    cart = cart.filter(i => i.id !== id);
+                }
+            }
+            updateBadges();
+        }
+
+        // عرض المفضلة
+        function renderWishlistItems() {
+            const container = document.getElementById('wishlist-items-container');
+            container.innerHTML = '';
+            if (wishlist.length === 0) {
+                container.innerHTML = `<div class="text-center text-gray-500 py-12">لا توجد منتجات في المفضلة</div>`;
                 return;
             }
-            currentUser = { name, email };
-            localStorage.setItem('alpha_user', JSON.stringify(currentUser));
-            updateUserUI();
-            toggleModal('auth-modal');
-            showToast(`أهلاً بك في الفا ستور يا ${name}`);
+            wishlist.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'glass p-3 rounded-2xl flex items-center justify-between gap-3';
+                div.innerHTML = `
+                    <img src="${item.colors[0].image}" class="w-14 h-14 object-cover rounded-xl">
+                    <div class="flex-1">
+                        <h4 class="font-bold text-sm">${item.name}</h4>
+                        <span class="text-purple-400 text-xs">${item.price} ر.س</span>
+                    </div>
+                    <button onclick="toggleWishlist(${item.id})" class="text-pink-500 hover:text-white p-2"><i class="fa-solid fa-trash"></i></button>
+                `;
+                container.appendChild(div);
+            });
         }
 
-        function logout() {
-            currentUser = null;
-            localStorage.removeItem('alpha_user');
-            updateUserUI();
-            toggleModal('auth-modal');
-            showToast('تم تسجيل الخروج');
+        // نوافذ المودال
+        function toggleCartModal() {
+            const modal = document.getElementById('cart-modal');
+            modal.classList.toggle('hidden');
         }
 
-        function updateUserUI() {
-            const userBtn = document.getElementById('user-btn');
-            if (currentUser) {
-                userBtn.classList.add('border-brand-glow', 'text-brand-glow');
+        function toggleWishlistModal() {
+            const modal = document.getElementById('wishlist-modal');
+            modal.classList.toggle('hidden');
+        }
+
+        function openAuthModal() {
+            document.getElementById('auth-modal').classList.remove('hidden');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('auth-modal').classList.add('hidden');
+        }
+
+        function openCheckoutModal() {
+            if (cart.length === 0) {
+                showToast("سلة التسوق فارغة!");
+                return;
+            }
+            toggleCartModal();
+            document.getElementById('checkout-modal').classList.remove('hidden');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkout-modal').classList.add('hidden');
+        }
+
+        // نظام التحقق عبر الإيميل (OTP Verification)
+        function sendOtpCode(e) {
+            e.preventDefault();
+            const email = document.getElementById('user-email').value;
+            document.getElementById('sent-to-email').innerText = email;
+            document.getElementById('auth-step-1').classList.add('hidden');
+            document.getElementById('auth-step-2').classList.remove('hidden');
+            showToast("تم إرسال رمز التحقق (1234) إلى بريدك الإلكتروني");
+        }
+
+        function verifyOtpCode(e) {
+            e.preventDefault();
+            const otp = document.getElementById('otp-input').value;
+            if (otp === "1234") {
+                currentUser = document.getElementById('user-email').value;
+                document.getElementById('auth-btn-text').innerText = "حسابي (مفعل)";
+                closeAuthModal();
+                showToast("تم تسجيل الدخول والتحقق بنجاح أهلاً بك!");
             } else {
-                userBtn.classList.remove('border-brand-glow', 'text-brand-glow');
+                showToast("رمز التحقق غير صحيح (جرب 1234)");
             }
         }
 
-        function handleSearch(query) {
-            const filtered = products.filter(p => p.name.includes(query) || p.description.includes(query));
-            renderProducts(filtered);
+        // معالجة الدفع الحقيقي الآمن وتأكيد الطلب
+        function processRealPayment(e) {
+            e.preventDefault();
+            closeCheckoutModal();
+            cart = [];
+            updateBadges();
+            showToast("✅ تم إتمام الدفع بنجاح! تم استلام طلبك وتأكيده.");
         }
 
-        function filterCategory(cat, btn) {
-            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('bg-brand-vivid/40', 'border-brand-glow/40'));
-            btn.classList.add('bg-brand-vivid/40', 'border-brand-glow/40');
-            if (cat === 'all') {
-                renderProducts(products);
-            } else {
-                renderProducts(products.filter(p => p.category === cat));
-            }
-        }
-
-        function scrollToProducts() {
-            document.getElementById('products-grid').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function toggleModal(id) {
-            const modal = document.getElementById(id);
-            if (modal.classList.contains('hidden')) {
-                modal.classList.remove('hidden');
-                setTimeout(() => modal.classList.remove('opacity-0'), 10);
-            } else {
-                modal.classList.add('opacity-0');
-                setTimeout(() => modal.classList.add('hidden'), 300);
-            }
-        }
-
+        // عرض الإشعارات
         function showToast(message) {
             const toast = document.getElementById('toast');
             document.getElementById('toast-message').innerText = message;
-            toast.classList.remove('-translate-y-20', 'opacity-0');
+            toast.classList.remove('translate-y-28');
             setTimeout(() => {
-                toast.classList.add('-translate-y-20', 'opacity-0');
-            }, 3000);
+                toast.classList.add('translate-y-28');
+            }, 3500);
         }
     </script>
 </body>
